@@ -1,11 +1,19 @@
 FROM node:22
 
-# Install basic tools
+# Install basic tools + Chromium for browser automation
+# Chromium needs --no-sandbox when running as root in Docker;
+# clawdbot handles this via its CHROMIUM_FLAGS / puppeteer config
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     rsync \
+    chromium \
     && rm -rf /var/lib/apt/lists/*
+
+# Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
+ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
+ENV CHROME_PATH=/usr/bin/chromium
+ENV CHROMIUM_FLAGS="--no-sandbox --disable-gpu --disable-dev-shm-usage"
 
 # Optional extra apt packages (set via docker-compose build args)
 ARG EXTRA_APT_PACKAGES=""

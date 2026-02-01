@@ -93,6 +93,14 @@ config.gateway.mode = 'local';
 config.gateway.controlUi = config.gateway.controlUi || {};
 config.gateway.controlUi.allowInsecureAuth = true;
 
+// Browser configuration (Chromium in Docker)
+config.browser = config.browser || {};
+config.browser.enabled = true;
+config.browser.executablePath = '/usr/bin/chromium';
+config.browser.headless = true;
+config.browser.noSandbox = true;
+config.browser.defaultProfile = 'clawd';
+
 // Set gateway token if provided
 if (process.env.CLAWDBOT_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
@@ -186,9 +194,10 @@ EOFNODE
 echo "Starting OpenClaw Gateway..."
 echo "Gateway will be available on port 18789"
 
-# Clean up stale lock files
+# Clean up stale lock files (from previous crashes)
 rm -f /tmp/clawdbot-gateway.lock 2>/dev/null || true
 rm -f "$CONFIG_DIR/gateway.lock" 2>/dev/null || true
+find "$CONFIG_DIR" -name "*.lock" -delete 2>/dev/null || true
 
 BIND_MODE="lan"
 
