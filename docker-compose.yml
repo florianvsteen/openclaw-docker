@@ -11,15 +11,11 @@ services:
       - ./workspace:/root/clawd        # Workspace + skills
     environment:
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      # Optional: custom Anthropic base URL (e.g. for a proxy)
-      # - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
-      # Optional: OpenAI provider
-      # - OPENAI_API_KEY=${OPENAI_API_KEY}
-      # Optional: chat channels
-      # - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      # - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
-      # - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
-      # - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
-      # Optional: gateway auth token (for programmatic access)
-      # - CLAWDBOT_GATEWAY_TOKEN=${CLAWDBOT_GATEWAY_TOKEN}
+      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
+      - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
+      - CLAWDBOT_GATEWAY_TOKEN=${CLAWDBOT_GATEWAY_TOKEN}
     restart: unless-stopped
