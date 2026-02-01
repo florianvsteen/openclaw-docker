@@ -23,7 +23,7 @@ Local Docker runtime for [OpenClaw](https://github.com/openclaw/openclaw) (packa
    docker-compose up --build
    ```
 
-3. **Open the Control UI** at [http://localhost:18789](http://localhost:18789).
+3. **Open the Control UI** at [http://localhost:18789/?token=local](http://localhost:18789?token=local).
 
 That's it. Config and conversations persist in `./data/`, workspace files in `./workspace/`.
 
