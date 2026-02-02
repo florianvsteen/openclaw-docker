@@ -18,4 +18,5 @@ services:
       - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
       - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
       - CLAWDBOT_GATEWAY_TOKEN=${CLAWDBOT_GATEWAY_TOKEN}
+    shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
     restart: unless-stopped

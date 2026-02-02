@@ -194,10 +194,14 @@ EOFNODE
 echo "Starting OpenClaw Gateway..."
 echo "Gateway will be available on port 18789"
 
-# Clean up stale lock files (from previous crashes)
+# Clean up stale lock files (from previous crashes / container restarts)
 rm -f /tmp/clawdbot-gateway.lock 2>/dev/null || true
 rm -f "$CONFIG_DIR/gateway.lock" 2>/dev/null || true
 find "$CONFIG_DIR" -name "*.lock" -delete 2>/dev/null || true
+# Chromium profile singleton locks (these don't have a .lock extension)
+find "$CONFIG_DIR" -name "SingletonLock" -delete 2>/dev/null || true
+find "$CONFIG_DIR" -name "SingletonSocket" -delete 2>/dev/null || true
+find "$CONFIG_DIR" -name "SingletonCookie" -delete 2>/dev/null || true
 
 BIND_MODE="lan"
 
@@ -220,4 +224,41 @@ echo "  http://localhost:18789/?token=${CLAWDBOT_GATEWAY_TOKEN}"
 echo "============================================================"
 echo ""
 
-exec clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$CLAWDBOT_GATEWAY_TOKEN"
+# Pre-launch Chromium with CDP so the browser control server finds it running.
+# Clawdbot's built-in /start endpoint fails to launch chromium in Docker,
+# but if we start it ourselves on the expected CDP port, clawdbot detects it.
+# Chromium runs as a background process; the shell stays as PID 1 so it can
+# reap child processes (exec would orphan chromium, causing it to be killed).
+echo "Starting Chromium (headless, CDP on port 18800)..."
+chromium \
+    --headless \
+    --no-sandbox \
+    --disable-gpu \
+    --disable-dev-shm-usage \
+    --remote-debugging-port=18800 \
+    --remote-debugging-address=127.0.0.1 \
+    --user-data-dir=/root/.clawdbot/browser/clawd/user-data \
+    about:blank 2>/dev/null &
+CHROMIUM_PID=$!
+
+# Wait for CDP to be ready
+sleep 2
+if kill -0 $CHROMIUM_PID 2>/dev/null; then
+    echo "Chromium started (PID $CHROMIUM_PID)"
+else
+    echo "WARNING: Chromium failed to start. Browser automation will not be available."
+fi
+
+# Start gateway in the background (not exec) so this shell stays as PID 1
+# to manage chromium as a child process.
+clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$CLAWDBOT_GATEWAY_TOKEN" &
+GATEWAY_PID=$!
+
+# Forward signals to the gateway
+trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
+
+# Wait for the gateway to exit; if it does, clean up chromium too
+wait $GATEWAY_PID
+EXIT_CODE=$?
+kill $CHROMIUM_PID 2>/dev/null
+exit $EXIT_CODE
