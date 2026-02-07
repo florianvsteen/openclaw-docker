@@ -30,6 +30,7 @@ This was extracted from the Cloudflare moltworker deployment at `/Users/colkitt/
 
 Handled by the inline Node.js script in `start-openclaw.sh`:
 - `ANTHROPIC_API_KEY` — required for default setup
+- `ANTHROPIC_MODEL` — optional, default `claude-sonnet-4-5-20250929`; sets the primary model
 - `ANTHROPIC_BASE_URL` — optional, for proxies
 - `OPENAI_API_KEY` — adds OpenAI as a secondary provider
 - `TELEGRAM_BOT_TOKEN`, `DISCORD_BOT_TOKEN`, `SLACK_BOT_TOKEN`/`SLACK_APP_TOKEN` — chat channels

@@ -135,19 +135,25 @@ if (process.env.SLACK_BOT_TOKEN && process.env.SLACK_APP_TOKEN) {
 
 // Anthropic provider configuration
 const baseUrl = (process.env.ANTHROPIC_BASE_URL || '').replace(/\/+$/, '');
+const anthropicModel = process.env.ANTHROPIC_MODEL || 'claude-sonnet-4-5-20250929';
 
 if (baseUrl) {
     console.log('Configuring Anthropic provider with base URL:', baseUrl);
     config.models = config.models || {};
     config.models.providers = config.models.providers || {};
+    const knownModels = [
+        { id: 'claude-opus-4-5-20251101', name: 'Claude Opus 4.5', contextWindow: 200000 },
+        { id: 'claude-sonnet-4-5-20250929', name: 'Claude Sonnet 4.5', contextWindow: 200000 },
+        { id: 'claude-haiku-4-5-20251001', name: 'Claude Haiku 4.5', contextWindow: 200000 },
+    ];
+    // If the user specified a model not in the known list, add it
+    if (!knownModels.some(m => m.id === anthropicModel)) {
+        knownModels.push({ id: anthropicModel, name: anthropicModel, contextWindow: 200000 });
+    }
     const providerConfig = {
         baseUrl: baseUrl,
         api: 'anthropic-messages',
-        models: [
-            { id: 'claude-opus-4-5-20251101', name: 'Claude Opus 4.5', contextWindow: 200000 },
-            { id: 'claude-sonnet-4-5-20250929', name: 'Claude Sonnet 4.5', contextWindow: 200000 },
-            { id: 'claude-haiku-4-5-20251001', name: 'Claude Haiku 4.5', contextWindow: 200000 },
-        ]
+        models: knownModels
     };
     if (process.env.ANTHROPIC_API_KEY) {
         providerConfig.apiKey = process.env.ANTHROPIC_API_KEY;
@@ -157,29 +163,42 @@ if (baseUrl) {
     config.agents.defaults.models['anthropic/claude-opus-4-5-20251101'] = { alias: 'Opus 4.5' };
     config.agents.defaults.models['anthropic/claude-sonnet-4-5-20250929'] = { alias: 'Sonnet 4.5' };
     config.agents.defaults.models['anthropic/claude-haiku-4-5-20251001'] = { alias: 'Haiku 4.5' };
-    config.agents.defaults.model.primary = 'anthropic/claude-sonnet-4-5-20250929';
-} else {
+    if (!knownModels.slice(0, 3).some(m => m.id === anthropicModel)) {
+        config.agents.defaults.models['anthropic/' + anthropicModel] = { alias: anthropicModel };
+    }
+    config.agents.defaults.model.primary = 'anthropic/' + anthropicModel;
+} else if (process.env.ANTHROPIC_API_KEY) {
     // No custom base URL — default to Anthropic direct API
-    config.agents.defaults.model.primary = 'anthropic/claude-sonnet-4-5-20250929';
+    config.agents.defaults.model.primary = 'anthropic/' + anthropicModel;
 }
 
-// OpenAI provider (if OPENAI_API_KEY is set, register models)
+// OpenAI-compatible provider (works with OpenAI, OpenRouter, Kimi, etc.)
 if (process.env.OPENAI_API_KEY) {
-    console.log('Configuring OpenAI provider');
+    const openaiBaseUrl = (process.env.OPENAI_BASE_URL || '').replace(/\/+$/, '');
+    const openaiModel = process.env.OPENAI_MODEL || 'gpt-5.2';
+    console.log('Configuring OpenAI provider' + (openaiBaseUrl ? ' with base URL: ' + openaiBaseUrl : ''));
+
     config.models = config.models || {};
     config.models.providers = config.models.providers || {};
-    config.models.providers.openai = config.models.providers.openai || {
+
+    const openaiProvider = {
         api: 'openai-responses',
         models: [
-            { id: 'gpt-5.2', name: 'GPT-5.2', contextWindow: 200000 },
-            { id: 'gpt-5', name: 'GPT-5', contextWindow: 200000 },
-            { id: 'gpt-4.5-preview', name: 'GPT-4.5 Preview', contextWindow: 128000 },
+            { id: openaiModel, name: openaiModel, contextWindow: 200000 },
         ]
     };
+    if (openaiBaseUrl) {
+        openaiProvider.baseUrl = openaiBaseUrl;
+    }
+    config.models.providers.openai = openaiProvider;
+
     config.agents.defaults.models = config.agents.defaults.models || {};
-    config.agents.defaults.models['openai/gpt-5.2'] = { alias: 'GPT-5.2' };
-    config.agents.defaults.models['openai/gpt-5'] = { alias: 'GPT-5' };
-    config.agents.defaults.models['openai/gpt-4.5-preview'] = { alias: 'GPT-4.5' };
+    config.agents.defaults.models['openai/' + openaiModel] = { alias: openaiModel };
+
+    // If no Anthropic key, use OpenAI model as primary
+    if (!process.env.ANTHROPIC_API_KEY) {
+        config.agents.defaults.model.primary = 'openai/' + openaiModel;
+    }
 }
 
 // Write updated config
