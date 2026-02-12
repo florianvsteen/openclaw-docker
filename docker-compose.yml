@@ -10,18 +10,6 @@ services:
       - ./data:/root/.clawdbot        # Persistent config + conversations
       - ./workspace:/root/clawd        # Workspace + skills
     environment:
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - ANTHROPIC_BASE_URL=${ANTHROPIC_BASE_URL}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - OPENAI_BASE_URL=${OPENAI_BASE_URL}
-      - OPENAI_MODEL=${OPENAI_MODEL}
-      - ANTHROPIC_MODEL=${ANTHROPIC_MODEL}
-      - ANTHROPIC_EXTRA_MODELS=${ANTHROPIC_EXTRA_MODELS}
-      - OPENAI_EXTRA_MODELS=${OPENAI_EXTRA_MODELS}
-      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-      - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
-      - SLACK_BOT_TOKEN=${SLACK_BOT_TOKEN}
-      - SLACK_APP_TOKEN=${SLACK_APP_TOKEN}
       - CLAWDBOT_GATEWAY_TOKEN=${CLAWDBOT_GATEWAY_TOKEN}
     shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
     restart: unless-stopped
