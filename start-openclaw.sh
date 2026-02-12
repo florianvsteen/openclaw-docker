@@ -99,7 +99,7 @@ config.browser.enabled = true;
 config.browser.executablePath = '/usr/bin/chromium';
 config.browser.headless = true;
 config.browser.noSandbox = true;
-config.browser.defaultProfile = 'clawd';
+config.browser.defaultProfile = 'openclaw';
 
 // Set gateway token if provided
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
