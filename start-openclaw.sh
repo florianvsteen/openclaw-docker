@@ -296,6 +296,21 @@ else
     echo "WARNING: Chromium failed to start. Browser automation will not be available."
 fi
 
+echo "Ensure the base skills directory exists"
+mkdir -p /root/clawd/skills
+
+# 1. Install/Update Yahoo Forex Skill (Python-based)
+if [ ! -d "/root/clawd/skills/forex-skill" ]; then
+    echo "Cloning Yahoo Forex Skill..."
+    git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/clawd/skills/forex-skill
+fi
+
+# 2. Install/Update General Finance News Skill
+if [ ! -d "/root/clawd/skills/finance-news" ]; then
+    echo "Cloning General Finance News Skill..."
+    git clone https://github.com/kesslerio/finance-news-openclaw-skill /root/clawd/skills/finance-news
+fi
+
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
 openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
