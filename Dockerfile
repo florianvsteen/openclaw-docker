@@ -34,6 +34,9 @@ RUN npm install -g pnpm
 RUN npm install -g openclaw@latest \
     && openclaw --version
 
+# Install clawdhub
+RUN npm install -g clawdhub
+
 # Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
 COPY user-setup.sh /tmp/user-setup.sh
 RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
