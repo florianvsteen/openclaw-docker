@@ -1,5 +1,6 @@
 services:
   openclaw:
+    container_name: openclaw-agentic
     build:
       context: .
       args:
