@@ -123,6 +123,11 @@ if (process.env.DISCORD_BOT_TOKEN) {
     config.channels.discord.enabled = true;
     config.channels.discord.dm = config.channels.discord.dm || {};
     config.channels.discord.dm.policy = process.env.DISCORD_DM_POLICY || 'pairing';
+
+    config.plugins = config.plugins || {};
+    config.plugins.entries = config.plugins.entries || {};
+    config.plugins.entries.discord = config.plugins.entries.discord || {};
+    config.plugins.entries.discord.enabled = true;
 }
 
 // Slack configuration
