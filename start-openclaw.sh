@@ -293,7 +293,7 @@ fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
+openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
 GATEWAY_PID=$!
 
 # Forward signals to the gateway
