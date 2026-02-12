@@ -241,7 +241,7 @@ EOFNODE
 echo "Install Clawhub..."
 # Automatically install a skill if missing
 if [ ! -d "/root/clawd/skills/clawhub" ]; then
-    clawdhub install clawhub
+    npm install -g clawdhub
 fi
 
 echo "Ensure the base skills directory exists"
