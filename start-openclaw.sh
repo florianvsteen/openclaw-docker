@@ -244,15 +244,19 @@ mkdir -p /root/clawd/skills
 # 1. Install/Update Yahoo Forex Skill (Python-based)
 echo "Installing Forex Skills"
 if [ ! -d "/root/clawd/skills/forex-skill" ]; then
-    echo "Cloning Yahoo Forex Skill..."
     git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/clawd/skills/forex-skill
 fi
 
 # 2. Install/Update General Finance News Skill
 echo "Installing Yahoo Finance Skills"
 if [ ! -d "/root/clawd/skills/finance-news" ]; then
-    echo "Cloning General Finance News Skill..."
     git clone https://github.com/kesslerio/finance-news-openclaw-skill /root/clawd/skills/finance-news
+fi
+
+# 3. Install/Update TradingView Screener
+echo "Installing TradingView Screener"
+if [ ! -d "/root/clawd/skills/finance-news" ]; then
+    clawdhub install tradingview-screener
 fi
 
 # ============================================================
