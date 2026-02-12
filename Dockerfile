@@ -24,10 +24,10 @@ RUN if [ -n "$EXTRA_APT_PACKAGES" ]; then \
 # Install pnpm globally
 RUN npm install -g pnpm
 
-# Install clawdbot (CLI package — upstream hasn't renamed to openclaw yet)
+# Install openclaw
 # Pin to specific version for reproducible builds
-RUN npm install -g clawdbot@2026.1.24-3 \
-    && clawdbot --version
+RUN npm install -g openclaw@latest \
+    && openclaw --version
 
 # Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
 COPY user-setup.sh /tmp/user-setup.sh
