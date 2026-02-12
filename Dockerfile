@@ -8,7 +8,12 @@ RUN apt-get update && apt-get install -y \
     git \
     rsync \
     chromium \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+# We use --break-system-packages because Debian/Ubuntu now block global pip installs by default
+RUN pip3 install --no-cache-dir yfinance>=0.2.40 --break-system-packages
 
 # Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
@@ -39,6 +44,9 @@ RUN mkdir -p /root/.clawdbot \
     && mkdir -p /root/.clawdbot-templates \
     && mkdir -p /root/clawd \
     && mkdir -p /root/clawd/skills
+
+# ADDED: Clone the Yahoo Finance FOREX skill directly into the skills folder
+RUN git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/clawd/skills/forex-skill
 
 # Copy startup script
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
