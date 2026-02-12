@@ -102,9 +102,9 @@ config.browser.noSandbox = true;
 config.browser.defaultProfile = 'clawd';
 
 // Set gateway token if provided
-if (process.env.CLAWDBOT_GATEWAY_TOKEN) {
+if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
-    config.gateway.auth.token = process.env.CLAWDBOT_GATEWAY_TOKEN;
+    config.gateway.auth.token = process.env.OPENCLAW_GATEWAY_TOKEN;
 }
 
 // Telegram configuration
@@ -248,13 +248,13 @@ find "$CONFIG_DIR" -name "SingletonCookie" -delete 2>/dev/null || true
 BIND_MODE="lan"
 
 # Token logic:
-# - If CLAWDBOT_GATEWAY_TOKEN is set, the user intends remote/LAN access.
+# - If OPENCLAW_GATEWAY_TOKEN is set, the user intends remote/LAN access.
 # - If no token is set, use a stable default. The host-side port is bound
 #   to 127.0.0.1 by default (in docker-compose.yml), so a well-known token
 #   is not a security concern for local use.
-if [ -z "$CLAWDBOT_GATEWAY_TOKEN" ]; then
-    CLAWDBOT_GATEWAY_TOKEN="local"
-    echo "No CLAWDBOT_GATEWAY_TOKEN set — using default token for local access"
+if [ -z "$OPENCLAW_GATEWAY_TOKEN" ]; then
+    OPENCLAW_GATEWAY_TOKEN="local"
+    echo "No OPENCLAW_GATEWAY_TOKEN set — using default token for local access"
 else
     echo "Starting gateway with explicit token (remote access mode)..."
 fi
@@ -262,7 +262,7 @@ fi
 echo ""
 echo "============================================================"
 echo "  Open the Control UI at:"
-echo "  http://localhost:18789/?token=${CLAWDBOT_GATEWAY_TOKEN}"
+echo "  http://localhost:18789/?token=${OPENCLAW_GATEWAY_TOKEN}"
 echo "============================================================"
 echo ""
 
@@ -293,7 +293,7 @@ fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$CLAWDBOT_GATEWAY_TOKEN" &
+clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
 GATEWAY_PID=$!
 
 # Forward signals to the gateway
