@@ -8,7 +8,7 @@
 set -e
 
 # Check if clawdbot gateway is already running
-if pgrep -f "clawdbot gateway" > /dev/null 2>&1; then
+if pgrep -f "openclaw gateway" > /dev/null 2>&1; then
     echo "OpenClaw gateway is already running, exiting."
     exit 0
 fi
@@ -237,7 +237,7 @@ echo "Starting OpenClaw Gateway..."
 echo "Gateway will be available on port 18789"
 
 # Clean up stale lock files (from previous crashes / container restarts)
-rm -f /tmp/clawdbot-gateway.lock 2>/dev/null || true
+rm -f /tmp/openclaw-gateway.lock 2>/dev/null || true
 rm -f "$CONFIG_DIR/gateway.lock" 2>/dev/null || true
 find "$CONFIG_DIR" -name "*.lock" -delete 2>/dev/null || true
 # Chromium profile singleton locks (these don't have a .lock extension)
