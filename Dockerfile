@@ -45,9 +45,6 @@ RUN mkdir -p /root/.clawdbot \
     && mkdir -p /root/clawd \
     && mkdir -p /root/clawd/skills
 
-# ADDED: Clone the Yahoo Finance FOREX skill directly into the skills folder
-RUN git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/clawd/skills/forex-skill
-
 # Copy startup script
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
 RUN chmod +x /usr/local/bin/start-openclaw.sh
