@@ -21,9 +21,7 @@ services:
   # The Browser Service (Remote CDP Endpoint)
   browser:
     container_name: openclaw-browser
-    image: browserless/chrome:latest
-    ports:
-      - "3000:3000"
+    image: coollabsio/openclaw-browser:latest
     environment:
       - PUID=1000
       - PGID=1000
