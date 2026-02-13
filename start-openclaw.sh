@@ -304,7 +304,7 @@ fi
 
 # 4. Install DuckDuckGo Search Skill
 echo "Installing DuckDuckGo Search"
-if [ ! -d "/root/clawd/skills/duckduckgo-search" ]; then
+if [ ! -d "/root/clawd/skills/ddg-search" ]; then
     clawdhub install ddg-search
 fi
 
