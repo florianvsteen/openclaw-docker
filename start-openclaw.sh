@@ -107,25 +107,28 @@ config.gateway.controlUi.allowInsecureAuth = true;
 config.browser = config.browser || {};
 config.browser.enabled = true;
 
-// Remove local-only settings
+// 1. DELETE THE OFFENDING KEY AND LEGACY KEYS
+delete config.browser.mode;
 delete config.browser.executablePath;
 delete config.browser.headless;
 delete config.browser.noSandbox;
 
-// 1. Set the default profile name
+// 2. SET THE DEFAULT PROFILE
+// 'openclaw' is the managed/remote profile name
 config.browser.defaultProfile = 'openclaw';
 
-// 2. Define the remote connection details
+// 3. CONFIGURE THE PROFILES
 config.browser.profiles = {
     'openclaw': {
-        // Use 'ws' for the standard connection; use '/stealth' to bypass bot detection
-        cdpUrl: `ws://browser:3000`,
+        // Use your Browserless container name and port 3000
+        cdpUrl: `ws://browser:3000/stealth?token=${process.env.BROWSER_TOKEN || 'your_secret_token_here'}`,
         color: '#00AA00'
+    },
+    // Optional: Keep 'chrome' defined as a dummy to prevent auto-generation errors
+    'chrome': {
+        enabled: false
     }
 };
-
-// 3. Enable remote mode (required in 2026)
-config.browser.mode = 'remote';
 
 //Duck Duck Search
 // Remove these if they are still there!
