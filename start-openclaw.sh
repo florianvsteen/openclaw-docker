@@ -66,7 +66,7 @@ try {
 }
 
 // Top-level Gateway behavior
-config.configWrites = true; // Allows the bot to save changes back to disk
+delete config.configWrites
 
 // Ensure nested objects exist
 config.agents = config.agents || {};
@@ -131,6 +131,8 @@ if (process.env.DISCORD_BOT_TOKEN) {
     
     config.channels.discord.token = process.env.DISCORD_BOT_TOKEN;
     config.channels.discord.enabled = true;
+    config.channels.discord.configWrites = true;
+    
     if (config.channels && config.channels.discord) {
         delete config.channels.discord.requireMention;
     }
