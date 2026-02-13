@@ -21,6 +21,7 @@ services:
   # The Browser Service (Remote CDP Endpoint)
   browser:
     image: browserless/chrome:latest
+    shm_size: '2gb'
     environment:
       - MAX_CONCURRENT_SESSIONS=10
       - CONNECTION_TIMEOUT=60000
