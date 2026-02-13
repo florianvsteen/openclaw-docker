@@ -128,7 +128,9 @@ if (process.env.DISCORD_BOT_TOKEN) {
     
     config.channels.discord.token = process.env.DISCORD_BOT_TOKEN;
     config.channels.discord.enabled = true;
-
+    if (config.channels && config.channels.discord) {
+        delete config.channels.discord.requireMention;
+    }
     // 'allowlist' (default) blocks everyone not in a specific list
     config.channels.discord.groupPolicy = 'open';
     config.channels.discord.dm = config.channels.discord.dm || {};
