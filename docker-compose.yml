@@ -28,6 +28,8 @@ services:
       - MAX_QUEUE_LENGTH=20
       - HOST=0.0.0.0
       - PORT=3000
+      - SCREEN_WIDTH=1920
+      - SCREEN_HEIGHT=1080
     restart: unless-stopped
     ports:
       - "3000:3000"
