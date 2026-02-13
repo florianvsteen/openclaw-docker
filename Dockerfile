@@ -2,7 +2,7 @@ FROM node:22
 
 # Install basic tools + Chromium for browser automation
 # Chromium needs --no-sandbox when running as root in Docker;
-# clawdbot handles this via its CHROMIUM_FLAGS / puppeteer config
+# openclaw handles this via its CHROMIUM_FLAGS / puppeteer config
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -43,8 +43,8 @@ RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
 
 # Create directories
 # Templates are stored separately so we can detect first-run vs existing config
-RUN mkdir -p /root/.clawdbot \
-    && mkdir -p /root/.clawdbot-templates \
+RUN mkdir -p /root/.openclaw \
+    && mkdir -p /root/.openclaw-templates \
     && mkdir -p /root/clawd \
     && mkdir -p /root/clawd/skills
 
@@ -53,7 +53,7 @@ COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
 RUN chmod +x /usr/local/bin/start-openclaw.sh
 
 # Copy default configuration template
-COPY openclaw.json.template /root/.clawdbot-templates/openclaw.json.template
+COPY openclaw.json.template /root/.openclaw-templates/openclaw.json.template
 
 # Set working directory
 WORKDIR /root/clawd
