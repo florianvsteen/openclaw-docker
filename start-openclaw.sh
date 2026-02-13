@@ -107,14 +107,6 @@ config.gateway.controlUi.allowInsecureAuth = true;
 config.browser = config.browser || {};
 config.browser.enabled = true;
 
-// 1. DELETE THE OFFENDING KEY AND LEGACY KEYS
-delete config.browser.mode;
-delete config.browser.executablePath;
-delete config.browser.headless;
-delete config.browser.noSandbox;
-config.browser.profiles.chrone;
-
-// 2. SET THE DEFAULT PROFILE
 // 'openclaw' is the managed/remote profile name
 config.browser.defaultProfile = 'openclaw';
 
@@ -122,7 +114,7 @@ config.browser.defaultProfile = 'openclaw';
 config.browser.profiles = {
     'openclaw': {
         // Use your Browserless container name and port 3000
-        cdpUrl: `ws://browser:3000`,
+        cdpUrl: "ws://browser:3000/stealth", 
         color: '#00AA00'
         }
 };
