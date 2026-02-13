@@ -35,7 +35,7 @@ if [ ! -f "$CONFIG_FILE" ]; then
 {
   "agents": {
     "defaults": {
-      "workspace": "/root/clawd"
+      "workspace": "/root/openclaw"
     }
   },
   "gateway": {
@@ -300,30 +300,30 @@ EOFNODE
 # SKILL INSTALLATION
 # ============================================================
 echo "Ensure the base skills directory exists"
-mkdir -p /root/clawd/skills
+mkdir -p /root/openclaw/skills
 
 # 1. Install/Update Yahoo Forex Skill (Python-based)
 echo "Installing Forex Skills"
-if [ ! -d "/root/clawd/skills/forex-skill" ]; then
-    git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/clawd/skills/forex-skill
+if [ ! -d "/root/openclaw/skills/forex-skill" ]; then
+    git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/openclaw/skills/forex-skill
 fi
 
 # 2. Install/Update General Finance News Skill
 echo "Installing Yahoo Finance Skills"
-if [ ! -d "/root/clawd/skills/finance-news" ]; then
-    git clone https://github.com/kesslerio/finance-news-openclaw-skill /root/clawd/skills/finance-news
+if [ ! -d "/root/openclaw/skills/finance-news" ]; then
+    git clone https://github.com/kesslerio/finance-news-openclaw-skill /root/openclaw/skills/finance-news
 fi
 
 # 3. Install/Update TradingView Screener
 echo "Installing TradingView Screener"
-if [ ! -d "/root/clawd/skills/finance-news" ]; then
-    clawdhub install tradingview-screener
+if [ ! -d "/root/openclaw/skills/finance-news" ]; then
+    openclawhub install tradingview-screener
 fi
 
 # 4. Install DuckDuckGo Search Skill
 echo "Installing DuckDuckGo Search"
-if [ ! -d "/root/clawd/skills/ddg-search" ]; then
-    clawdhub install ddg-search
+if [ ! -d "/root/openclaw/skills/ddg-search" ]; then
+    openclawhub install ddg-search
 fi
 
 # ============================================================
@@ -375,7 +375,7 @@ chromium \
     --disable-dev-shm-usage \
     --remote-debugging-port=18800 \
     --remote-debugging-address=127.0.0.1 \
-    --user-data-dir=/root/.openclaw/browser/clawd/user-data \
+    --user-data-dir=/root/.openclaw/browser/openclaw/user-data \
     about:blank 2>/dev/null &
 CHROMIUM_PID=$!
 
