@@ -18,7 +18,7 @@ RUN pip3 install --no-cache-dir yfinance>=0.2.40 --break-system-packages
 # Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
 ENV CHROME_PATH=/usr/bin/chromium
-ENV CHROMIUM_FLAGS="--no-sandbox --disable-gpu --disable-dev-shm-usage '--user-agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"'"
+ENV CHROMIUM_FLAGS="--no-sandbox --disable-gpu --disable-dev-shm-usage --user-agent=\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\""
 
 # Optional extra apt packages (set via docker-compose build args)
 ARG EXTRA_APT_PACKAGES=""
