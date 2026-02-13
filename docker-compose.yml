@@ -17,8 +17,6 @@ services:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_API_KEY=ollama-local
     restart: unless-stopped
-    extra_hosts:
-      - "browser.flownet.be:192.168.115.11"
 
   # The Browser Service (Remote CDP Endpoint)
   browser:
