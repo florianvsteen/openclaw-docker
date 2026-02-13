@@ -8,8 +8,8 @@ services:
     ports:
       - "${OPENCLAW_BIND_HOST:-127.0.0.1}:18789:18789"
     volumes:
-      - ./data:/root/.clawdbot        # Persistent config + conversations
-      - ./workspace:/root/clawd        # Workspace + skills
+      - ./data:/root/.openclaw        # Persistent config + conversations
+      - ./workspace:/root/openclaw        # Workspace + skills
     environment:
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
