@@ -20,12 +20,19 @@ services:
 
   # The Browser Service (Remote CDP Endpoint)
   browser:
-    container_name: openclaw-browser
-    image: ghcr.io/steel-dev/steel-browser:latest
-    ports:
-      - "3000:3000" # Steel API & UI
-      - "9223:9223" # Chrome DevTools Protocol (CDP)
+    image: browserless/chrome:latest
     environment:
+      - DEBUG=browser:*
+      - MAX_CONCURRENT_SESSIONS=10
+      - CONNECTION_TIMEOUT=60000
+      - MAX_QUEUE_LENGTH=20
       - PREBOOT_CHROME=true
-    shm_size: 2g
-    restart: unless-stopped
+      - DEMO_MODE=false
+      - HOST=0.0.0.0
+      - ENABLE_DEBUGGER=false
+      - TOKEN=${BROWSERLESS_TOKEN}
+      - PORT=3000
+      - WORKSPACE_DELETE_EXPIRED=true
+    restart: always
+    ports:
+      - "3000:3000"
