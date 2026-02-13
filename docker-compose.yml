@@ -27,7 +27,12 @@ services:
   # The Browser Service (Remote CDP Endpoint)
   browser:
     container_name: openclaw-browser
-    image: ghcr.io/browserless/chromium
-    restart: unless-stopped
+    image: ghcr.io/browserless/chromium:latest
     ports:
       - "3000:3000"
+    environment:
+      - TZ=Europe/Brussels
+      - CHROME_CLI=--no-sandbox --disable-gpu --disable-software-rasterizer
+    volumes:
+      - ./browser-data:/root/.config/chromium # Persists logins/cookies
+    shm_size: 2g
