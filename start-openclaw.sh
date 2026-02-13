@@ -124,6 +124,7 @@ config.browser.profiles = {
         // Use your Browserless container name and port 3000
         cdpUrl: `ws://browser:3000`,
         color: '#00AA00'
+        }
 };
 
 //Duck Duck Search
