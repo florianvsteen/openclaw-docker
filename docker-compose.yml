@@ -26,11 +26,8 @@ services:
       - MAX_CONCURRENT_SESSIONS=10
       - CONNECTION_TIMEOUT=60000
       - MAX_QUEUE_LENGTH=20
-      - PREBOOT_CHROME=true
-      - DEMO_MODE=false
       - HOST=0.0.0.0
       - PORT=3000
-      - WORKSPACE_DELETE_EXPIRED=true
     restart: unless-stopped
     ports:
       - "3000:3000"
