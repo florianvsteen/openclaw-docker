@@ -112,6 +112,7 @@ delete config.browser.mode;
 delete config.browser.executablePath;
 delete config.browser.headless;
 delete config.browser.noSandbox;
+config.browser.profiles.chrone;
 
 // 2. SET THE DEFAULT PROFILE
 // 'openclaw' is the managed/remote profile name
@@ -121,13 +122,8 @@ config.browser.defaultProfile = 'openclaw';
 config.browser.profiles = {
     'openclaw': {
         // Use your Browserless container name and port 3000
-        cdpUrl: `ws://browser:3000/stealth?token=${process.env.BROWSER_TOKEN || 'your_secret_token_here'}`,
+        cdpUrl: `ws://browser:3000`,
         color: '#00AA00'
-    },
-    // Optional: Keep 'chrome' defined as a dummy to prevent auto-generation errors
-    'chrome': {
-        enabled: false
-    }
 };
 
 //Duck Duck Search
