@@ -16,12 +16,6 @@ services:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_API_KEY=ollama-local
-      # Browser sidecar
-      - BROWSER_CDP_URL=http://browser:3000
-      - BROWSER_DEFAULT_PROFILE=openclaw
-      - BROWSER_EVALUATE_ENABLED=true
-      - OPENCLAW_BROWSER_MODE=remote
-      - OPENCLAW_SECURITY_ALLOW_SCREENSHOTS=true
     restart: unless-stopped
 
   # The Browser Service (Remote CDP Endpoint)
@@ -32,7 +26,7 @@ services:
       - "3000:3000"
     environment:
       - TZ=Europe/Brussels
-      - CHROME_CLI=--no-sandbox --disable-gpu --disable-software-rasterizer
+      - CHROME_CLI=--remote-debugging-port=3000 --no-sandbox --disable-gpu --disable-software-rasterizer
     volumes:
       - ./browser-data:/root/.config/chromium # Persists logins/cookies
     shm_size: 2g
