@@ -21,14 +21,9 @@ services:
   # The Browser Service (Remote CDP Endpoint)
   browser:
     container_name: openclaw-browser
-    image: ghcr.io/browserless/chromium
+    image: ghcr.io/steel-dev/steel-browser
     ports:
       - "3000:3000"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
-      - CHROME_CLI=--remote-debugging-port=9222 --no-sandbox --disable-gpu --disable-software-rasterizer
-    volumes:
-      - ./browser-data:/config # Persists logins/cookies
+      - "9223:9223"
     shm_size: 2g
+    restart: unless-stopped
