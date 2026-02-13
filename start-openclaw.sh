@@ -123,16 +123,23 @@ if (process.env.TELEGRAM_BOT_TOKEN) {
 
 // Discord configuration
 if (process.env.DISCORD_BOT_TOKEN) {
+    config.channels = config.channels || {}; // Ensure channels object exists
     config.channels.discord = config.channels.discord || {};
+    
     config.channels.discord.token = process.env.DISCORD_BOT_TOKEN;
     config.channels.discord.enabled = true;
+
+    // 'allowlist' (default) blocks everyone not in a specific list
+    config.channels.discord.groupPolicy = 'open';
+
+    config.channels.discord.requireMention = false; 
+
     config.channels.discord.dm = config.channels.discord.dm || {};
     config.channels.discord.dm.policy = process.env.DISCORD_DM_POLICY || 'pairing';
 
     config.plugins = config.plugins || {};
     config.plugins.entries = config.plugins.entries || {};
-    config.plugins.entries.discord = config.plugins.entries.discord || {};
-    config.plugins.entries.discord.enabled = true;
+    config.plugins.entries.discord = config.plugins.entries.discord || { enabled: true };
 }
 
 // Slack configuration
