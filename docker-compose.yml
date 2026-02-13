@@ -26,6 +26,7 @@ services:
 
   # The Browser Service (Remote CDP Endpoint)
   browser:
+    container_name: openclaw-browser
     image: ghcr.io/browserless/chromium:latest
     ports:
       - "3000:3000"
