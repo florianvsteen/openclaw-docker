@@ -15,5 +15,6 @@ services:
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
+      - OLLAMA_API_KEY=ollama-local
     shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
     restart: unless-stopped
