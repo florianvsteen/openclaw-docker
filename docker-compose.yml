@@ -17,7 +17,7 @@ services:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_API_KEY=ollama-local
       # Browser sidecar
-      - BROWSER_CDP_URL=http://browser:9222
+      - BROWSER_CDP_URL=http://browser:3000
       - BROWSER_DEFAULT_PROFILE=openclaw
       - BROWSER_EVALUATE_ENABLED=true
       - OPENCLAW_BROWSER_MODE=remote
@@ -26,12 +26,14 @@ services:
 
   # The Browser Service (Remote CDP Endpoint)
   browser:
-    image: ghcr.io/openclaw/openclaw-browser:latest # Use latest for 2026 stability
+    image: ghcr.io/browserless/chromium:latest
+    ports:
+      - "3000:3000"
     environment:
       - PUID=1000
       - PGID=1000
       - TZ=Europe/Brussels
-      - CHROME_CLI=--remote-debugging-port=9222 --no-sandbox --disable-gpu --disable-software-rasterizer
+      - CHROME_CLI=--no-sandbox --disable-gpu --disable-software-rasterizer
       - SCREEN_WIDTH=1280
       - SCREEN_HEIGHT=720
       - SCREEN_DEPTH=24
