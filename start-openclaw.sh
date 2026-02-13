@@ -106,9 +106,9 @@ config.gateway.controlUi.allowInsecureAuth = true;
 // Browser configuration (Chromium in Docker)
 config.browser = config.browser || {};
 config.browser.enabled = true;
-config.browser.executablePath = '/usr/bin/chromium';
-config.browser.headless = true;
-config.browser.noSandbox = true;
+delete config.browser.executablePath
+delete config.browser.headless
+delete config.browser.noSandbox
 config.browser.defaultProfile = 'openclaw';
 
 //Duck Duck Search
