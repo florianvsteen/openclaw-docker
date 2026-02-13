@@ -101,6 +101,19 @@ config.browser.headless = true;
 config.browser.noSandbox = true;
 config.browser.defaultProfile = 'openclaw';
 
+// DuckDuckGo Search configuration
+config.tools = config.tools || {};
+config.tools.web_search = {
+    enabled: true,
+    provider: 'duckduckgo' // This tells it to look for the ddg skill
+};
+
+// Ensure it's added to the default agent's tools
+config.agents.defaults.tools = config.agents.defaults.tools || [];
+if (!config.agents.defaults.tools.includes('web_search')) {
+    config.agents.defaults.tools.push('web_search');
+}
+
 // Set gateway token if provided
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
@@ -292,6 +305,12 @@ fi
 echo "Installing TradingView Screener"
 if [ ! -d "/root/clawd/skills/finance-news" ]; then
     clawdhub install tradingview-screener
+fi
+
+# 4. Install DuckDuckGo Search Skill
+echo "Installing DuckDuckGo Search"
+if [ ! -d "/root/clawd/skills/duckduckgo-search" ]; then
+    git clone https://github.com/openclaw/skill-ddg-search.git /root/clawd/skills/duckduckgo-search
 fi
 
 # ============================================================
