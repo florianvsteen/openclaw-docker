@@ -106,18 +106,10 @@ config.gateway.controlUi.allowInsecureAuth = true;
 // Browser configuration (Remote Browserless Setup)
 config.browser = config.browser || {};
 config.browser.enabled = true;
-
+config.browser.cdpUrl = 'http://browser:3000';
 // 'openclaw' is the managed/remote profile name
 config.browser.defaultProfile = 'openclaw';
-
-// 3. CONFIGURE THE PROFILES
-config.browser.profiles = {
-    'openclaw': {
-        // Use your Browserless container name and port 3000
-        cdpUrl: "ws://browser:3000/stealth", 
-        color: '#00AA00'
-        }
-};
+delete config.browser.profiles.openclaw;
 
 //Duck Duck Search
 // Remove these if they are still there!
