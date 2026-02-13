@@ -102,10 +102,12 @@ config.gateway.bind = 'lan';
 config.gateway.controlUi = config.gateway.controlUi || {};
 config.gateway.controlUi.allowInsecureAuth = true;
 
-// Browser configuration (Remote Browserless Setup)
+// Browser configuration (Chromium in Docker)
 config.browser = config.browser || {};
 config.browser.enabled = true;
-config.browser.cdpUrl = 'http://browser:3000';
+config.browser.executablePath = '/usr/bin/chromium';
+config.browser.headless = true;
+config.browser.noSandbox = true;
 config.browser.defaultProfile = 'openclaw';
 
 //Duck Duck Search
