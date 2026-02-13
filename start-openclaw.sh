@@ -310,7 +310,7 @@ fi
 # 4. Install DuckDuckGo Search Skill
 echo "Installing DuckDuckGo Search"
 if [ ! -d "/root/clawd/skills/duckduckgo-search" ]; then
-    git clone https://github.com/openclaw/skill-ddg-search.git /root/clawd/skills/duckduckgo-search
+    clawdhub install ddg-search
 fi
 
 # ============================================================
