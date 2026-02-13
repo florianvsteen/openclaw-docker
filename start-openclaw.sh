@@ -72,9 +72,6 @@ try {
     console.log('Starting with empty config');
 }
 
-// Top-level Gateway behavior
-delete config.configWrites
-
 // Ensure nested objects exist
 config.agents = config.agents || {};
 config.agents.defaults = config.agents.defaults || {};
@@ -97,6 +94,8 @@ if (config.models?.providers?.anthropic?.models) {
 // Gateway configuration
 config.gateway.port = 18789;
 config.gateway.mode = 'local';
+config.gateway.bind = 'lan';
+
 
 // Allow insecure auth by default for local convenience
 // Users who expose the port externally can set this to false in their config
