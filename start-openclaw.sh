@@ -65,6 +65,9 @@ try {
     console.log('Starting with empty config');
 }
 
+// Top-level Gateway behavior
+config.configWrites = true; // Allows the bot to save changes back to disk
+
 // Ensure nested objects exist
 config.agents = config.agents || {};
 config.agents.defaults = config.agents.defaults || {};
