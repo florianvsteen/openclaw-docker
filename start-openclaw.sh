@@ -237,14 +237,21 @@ if (process.env.OPENAI_API_KEY) {
 // Ollama provider configuration
 if (process.env.OLLAMA_BASE_URL) {
     const ollamaBaseUrl = process.env.OLLAMA_BASE_URL.replace(/\/+$/, '');
-    const ollamaModel = process.env.OLLAMA_MODEL || 'gpt-oss:20b';
+    // Ensure the model name doesn't have a slash for the internal ID
+    const rawModelName = process.env.OLLAMA_MODEL || 'qwen3:8b';
     console.log('Configuring Ollama provider at:', ollamaBaseUrl);
 
     config.models = config.models || {};
     config.models.providers = config.models.providers || {};
 
+    // Use the RAW name for the ID here
     const ollamaModels = [
-        { id: ollamaModel, name: ollamaModel, contextWindow: 128000 },
+        { 
+            id: rawModelName, 
+            name: rawModelName, 
+            contextWindow: 128000,
+            reasoning: false 
+        },
     ];
     
     // Add extra models if provided
@@ -255,17 +262,20 @@ if (process.env.OLLAMA_BASE_URL) {
     }
 
     config.models.providers.ollama = {
-        baseUrl: ollamaBaseUrl + '/v1', // Ollama's OpenAI-compatible endpoint
-        api: 'openai-responses',
+        baseUrl: ollamaBaseUrl + '/v1',
+        apiKey: 'ollama-local', // Satisfies validation
+        api: 'openai-completions', // Changed from openai-responses
         models: ollamaModels
     };
 
     config.agents.defaults.models = config.agents.defaults.models || {};
-    config.agents.defaults.models['ollama/' + ollamaModel] = { alias: ollamaModel };
+    // Keep the 'ollama/' prefix for the AGENT MAPPING only
+    config.agents.defaults.models['ollama/' + rawModelName] = { alias: rawModelName };
 
     // If no Anthropic or OpenAI key, make Ollama the primary
     if (!process.env.ANTHROPIC_API_KEY && !process.env.OPENAI_API_KEY) {
-        config.agents.defaults.model.primary = 'ollama/' + ollamaModel;
+        config.agents.defaults.model = config.agents.defaults.model || {};
+        config.agents.defaults.model.primary = 'ollama/' + rawModelName;
     }
 }
 
