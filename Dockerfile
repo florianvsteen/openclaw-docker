@@ -45,8 +45,8 @@ RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
 # Templates are stored separately so we can detect first-run vs existing config
 RUN mkdir -p /root/.openclaw \
     && mkdir -p /root/.openclaw-templates \
-    && mkdir -p /root/clawd \
-    && mkdir -p /root/clawd/skills
+    && mkdir -p /root/openclaw \
+    && mkdir -p /root/openclaw/skills
 
 # Copy startup script
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
@@ -56,7 +56,7 @@ RUN chmod +x /usr/local/bin/start-openclaw.sh
 COPY openclaw.json.template /root/.openclaw-templates/openclaw.json.template
 
 # Set working directory
-WORKDIR /root/clawd
+WORKDIR /root/openclaw
 
 # Expose the gateway port
 EXPOSE 18789
