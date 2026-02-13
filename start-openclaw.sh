@@ -101,18 +101,13 @@ config.browser.headless = true;
 config.browser.noSandbox = true;
 config.browser.defaultProfile = 'openclaw';
 
-// DuckDuckGo Search configuration
+//Duck Duck Go Configuration
 config.tools = config.tools || {};
-config.tools.web_search = {
-    enabled: true,
-    provider: 'duckduckgo' // This tells it to look for the ddg skill
+config.tools.web = config.tools.web || {};
+config.tools.web.search = {
+    provider: 'duckduckgo',
+    enabled: true
 };
-
-// Ensure it's added to the default agent's tools
-config.agents.defaults.tools = config.agents.defaults.tools || [];
-if (!config.agents.defaults.tools.includes('web_search')) {
-    config.agents.defaults.tools.push('web_search');
-}
 
 // Set gateway token if provided
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
