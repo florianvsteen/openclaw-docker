@@ -107,9 +107,7 @@ config.gateway.controlUi.allowInsecureAuth = true;
 config.browser = config.browser || {};
 config.browser.enabled = true;
 config.browser.cdpUrl = 'http://browser:3000';
-// 'openclaw' is the managed/remote profile name
 config.browser.defaultProfile = 'openclaw';
-delete config.browser.profiles.openclaw;
 
 //Duck Duck Search
 // Remove these if they are still there!
