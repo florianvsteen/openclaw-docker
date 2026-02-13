@@ -229,6 +229,41 @@ if (process.env.OPENAI_API_KEY) {
     }
 }
 
+// Ollama provider configuration
+if (process.env.OLLAMA_BASE_URL) {
+    const ollamaBaseUrl = process.env.OLLAMA_BASE_URL.replace(/\/+$/, '');
+    const ollamaModel = process.env.OLLAMA_MODEL || 'gpt-oss:20b';
+    console.log('Configuring Ollama provider at:', ollamaBaseUrl);
+
+    config.models = config.models || {};
+    config.models.providers = config.models.providers || {};
+
+    const ollamaModels = [
+        { id: ollamaModel, name: ollamaModel, contextWindow: 128000 },
+    ];
+    
+    // Add extra models if provided
+    for (const extraId of parseExtraModels('OLLAMA_EXTRA_MODELS')) {
+        if (!ollamaModels.some(m => m.id === extraId)) {
+            ollamaModels.push({ id: extraId, name: extraId, contextWindow: 128000 });
+        }
+    }
+
+    config.models.providers.ollama = {
+        baseUrl: ollamaBaseUrl + '/v1', // Ollama's OpenAI-compatible endpoint
+        api: 'openai-responses',
+        models: ollamaModels
+    };
+
+    config.agents.defaults.models = config.agents.defaults.models || {};
+    config.agents.defaults.models['ollama/' + ollamaModel] = { alias: ollamaModel };
+
+    // If no Anthropic or OpenAI key, make Ollama the primary
+    if (!process.env.ANTHROPIC_API_KEY && !process.env.OPENAI_API_KEY) {
+        config.agents.defaults.model.primary = 'ollama/' + ollamaModel;
+    }
+}
+
 // Write updated config
 fs.writeFileSync(configPath, JSON.stringify(config, null, 2));
 console.log('Configuration updated successfully');
