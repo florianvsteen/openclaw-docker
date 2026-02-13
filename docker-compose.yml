@@ -28,6 +28,11 @@ services:
   browser:
     container_name: openclaw-browser
     image: ghcr.io/browserless/chromium:latest
+    environment:
+    - ALLOW_GET=true
+      - CONCURRENT=10
+      - SCREEN_WIDTH=1280
+      - SCREEN_HEIGHT=720
     ports:
       - "3000:3000"
     volumes:
