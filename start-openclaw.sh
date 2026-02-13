@@ -101,14 +101,6 @@ config.browser.headless = true;
 config.browser.noSandbox = true;
 config.browser.defaultProfile = 'openclaw';
 
-//Duck Duck Go Configuration
-config.tools = config.tools || {};
-config.tools.web = config.tools.web || {};
-config.tools.web.search = {
-    provider: 'duckduckgo',
-    enabled: true
-};
-
 // Set gateway token if provided
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
