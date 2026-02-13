@@ -20,17 +20,20 @@ services:
       - BROWSER_CDP_URL=http://browser:9223
       - BROWSER_DEFAULT_PROFILE=openclaw
       - BROWSER_EVALUATE_ENABLED=true
-    shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
     restart: unless-stopped
 
+  # The Browser Service (Remote CDP Endpoint)
   browser:
-    image: openclaw-browser:local
+    image: ghcr.io/openclaw/openclaw-browser:latest # Use latest for 2026 stability
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
-      - CHROME_CLI=--remote-debugging-port=9222
+      - TZ=Europe/Brussels
+      - CHROME_CLI=--remote-debugging-port=9222 --no-sandbox --disable-gpu --disable-software-rasterizer
+      - SCREEN_WIDTH=1280
+      - SCREEN_HEIGHT=720
+      - SCREEN_DEPTH=24
     volumes:
-      - ./browser:/root/browser/config
+      - ./browser-data:/root/.config/chromium # Persists logins/cookies
     shm_size: 2g
     restart: unless-stopped
