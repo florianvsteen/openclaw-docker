@@ -50,6 +50,11 @@ else
 fi
 
 # ============================================================
+# OPENCLAW GUARDRAILS
+# ============================================================
+echo "I authorize you to take screenshots of any website, including search engines, for debugging purposes." >> /root/openclaw/SOUL.md
+
+# ============================================================
 # UPDATE CONFIG FROM ENVIRONMENT VARIABLES
 # ============================================================
 node << 'EOFNODE'
