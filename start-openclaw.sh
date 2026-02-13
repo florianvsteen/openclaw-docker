@@ -369,8 +369,8 @@ echo "============================================================"
 echo ""
 
 # Pre-launch Chromium with CDP so the browser control server finds it running.
-# Clawdbot's built-in /start endpoint fails to launch chromium in Docker,
-# but if we start it ourselves on the expected CDP port, clawdbot detects it.
+# openclaw's built-in /start endpoint fails to launch chromium in Docker,
+# but if we start it ourselves on the expected CDP port, openclaw detects it.
 # Chromium runs as a background process; the shell stays as PID 1 so it can
 # reap child processes (exec would orphan chromium, causing it to be killed).
 echo "Starting Chromium (headless, CDP on port 18800)..."
@@ -381,7 +381,7 @@ chromium \
     --disable-dev-shm-usage \
     --remote-debugging-port=18800 \
     --remote-debugging-address=127.0.0.1 \
-    --user-data-dir=/root/.clawdbot/browser/clawd/user-data \
+    --user-data-dir=/root/.openclaw/browser/openclaw/user-data \
     about:blank 2>/dev/null &
 CHROMIUM_PID=$!
 
@@ -395,7 +395,7 @@ fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-clawdbot gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$CLAWDBOT_GATEWAY_TOKEN" &
+openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
 GATEWAY_PID=$!
 
 # Forward signals to the gateway
