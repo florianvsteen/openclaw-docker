@@ -30,5 +30,5 @@ services:
       - TZ=Europe/Brussels
       - CHROME_CLI=--remote-debugging-port=9222 --no-sandbox --disable-gpu --disable-software-rasterizer
     volumes:
-      - ./browser-data:/root/.config/chromium # Persists logins/cookies
+      - ./browser-data:/config # Persists logins/cookies
     shm_size: 2g
