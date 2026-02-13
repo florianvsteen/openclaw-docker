@@ -30,14 +30,6 @@ services:
     image: ghcr.io/browserless/chromium:latest
     ports:
       - "3000:3000"
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Europe/Brussels
-      - CHROME_CLI=--no-sandbox --disable-gpu --disable-software-rasterizer
-      - SCREEN_WIDTH=1280
-      - SCREEN_HEIGHT=720
-      - SCREEN_DEPTH=24
     volumes:
       - ./browser-data:/root/.config/chromium # Persists logins/cookies
     shm_size: 2g
