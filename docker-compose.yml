@@ -16,5 +16,21 @@ services:
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_API_KEY=ollama-local
+      # Browser sidecar
+      - BROWSER_CDP_URL=http://browser:9223
+      - BROWSER_DEFAULT_PROFILE=openclaw
+      - BROWSER_EVALUATE_ENABLED=true
     shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
+    restart: unless-stopped
+
+  browser:
+    image: openclaw-browser:local
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - CHROME_CLI=--remote-debugging-port=9222
+    volumes:
+      - ./browser:/root/browser/config
+    shm_size: 2g
     restart: unless-stopped
