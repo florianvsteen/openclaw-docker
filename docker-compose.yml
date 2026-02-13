@@ -30,7 +30,6 @@ services:
       - DEMO_MODE=false
       - HOST=0.0.0.0
       - ENABLE_DEBUGGER=false
-      - TOKEN=${BROWSERLESS_TOKEN}
       - PORT=3000
       - WORKSPACE_DELETE_EXPIRED=true
     restart: always
