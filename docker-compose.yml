@@ -25,6 +25,8 @@ services:
     ports:
       - "3000:3000"
     environment:
+      - PUID=1000
+      - PGID=1000
       - TZ=Europe/Brussels
       - CHROME_CLI=--remote-debugging-port=9222 --no-sandbox --disable-gpu --disable-software-rasterizer
     volumes:
