@@ -13,5 +13,8 @@ services:
     environment:
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
+      - OLLAMA_BASE_URL=http://192.168.119.25:11434
+      - OPENCLAW_MODEL=ollama/qwen3:8b
+      - OPENCLAW_CONTEXT_WINDOW=16384
     shm_size: '2gb'  # Chromium needs more than Docker's default 64MB /dev/shm
     restart: unless-stopped
