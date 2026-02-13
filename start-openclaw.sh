@@ -101,6 +101,11 @@ config.browser.headless = true;
 config.browser.noSandbox = true;
 config.browser.defaultProfile = 'openclaw';
 
+//Duck Duck Search
+// Remove these if they are still there!
+delete config.tools;
+delete config.agents.defaults.tools;
+
 // Set gateway token if provided
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
