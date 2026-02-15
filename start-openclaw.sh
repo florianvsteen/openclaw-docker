@@ -78,6 +78,7 @@ config.agents.defaults = config.agents.defaults || {};
 config.agents.defaults.model = config.agents.defaults.model || {};
 config.gateway = config.gateway || {};
 config.channels = config.channels || {};
+config.agents.defaults.workspace = '/root/openclaw';
 
 // Always clear stale model primary to ensure startup script sets it fresh
 delete config.agents.defaults.model.primary;
