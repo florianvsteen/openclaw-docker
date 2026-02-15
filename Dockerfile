@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # We use --break-system-packages because Debian/Ubuntu now block global pip installs by default
-RUN pip3 install --no-cache-dir yfinance>=0.2.40 --break-system-packages
+#RUN pip3 install --no-cache-dir yfinance>=0.2.40 --break-system-packages
 
 # Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
@@ -34,7 +34,7 @@ RUN npm install -g pnpm
 RUN npm install -g openclaw@latest \
     && openclaw --version
 
-# Install clawdhub
+# Install clawhub
 RUN npm i -g clawhub
 
 # Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
