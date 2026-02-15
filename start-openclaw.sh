@@ -308,6 +308,7 @@ EOFNODE
 # ============================================================
 #echo "Ensure the base skills directory exists"
 mkdir -p /root/openclaw/skills
+clawhub install stock-analysis
 
 # ============================================================
 # START GATEWAY
