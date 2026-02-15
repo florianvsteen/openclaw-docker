@@ -309,22 +309,6 @@ echo "Ensure the base skills directory exists"
 mkdir -p /root/openclaw/skills
 npm i -g clawhub
 
-clawhub install stock-market-pro
-clawhub install finance-news
-clawhub install ddg-search
-
-# 3. Install/Update TradingView Screener
-echo "Installing TradingView Screener"
-if [ ! -d "/root/openclaw/skills/finance-news" ]; then
-    openclawhub install tradingview-screener
-fi
-
-# 4. Install DuckDuckGo Search Skill
-#echo "Installing DuckDuckGo Search"
-#if [ ! -d "/root/openclaw/skills/ddg-search" ]; then
-#    openclawhub install ddg-search
-#fi
-
 # ============================================================
 # START GATEWAY
 # ============================================================
