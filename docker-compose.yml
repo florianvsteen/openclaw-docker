@@ -8,8 +8,8 @@ services:
     ports:
       - "${OPENCLAW_BIND_HOST:-127.0.0.1}:18789:18789"
     volumes:
-      - ./data:/root/.openclaw        # Persistent config + conversations
-      - ./workspace:/root/openclaw        # Workspace + skills
+      - openclaw_data:/root/.openclaw      # Using named volume for config
+      - openclaw_workspace:/root/openclaw  # Using named volume for workspace
     environment:
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
@@ -33,3 +33,7 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+      
+volumes:
+  openclaw_data:
+  openclaw_workspace:
