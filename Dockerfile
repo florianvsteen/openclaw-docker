@@ -35,7 +35,7 @@ RUN npm install -g openclaw@latest \
     && openclaw --version
 
 # Install clawdhub
-RUN npm install -g clawdhub undici
+RUN npm i -g clawhub
 
 # Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
 COPY user-setup.sh /tmp/user-setup.sh
