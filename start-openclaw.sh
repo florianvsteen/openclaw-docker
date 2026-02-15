@@ -306,8 +306,8 @@ EOFNODE
 # SKILL INSTALLATION
 # ============================================================
 #echo "Ensure the base skills directory exists"
-#mkdir -p /root/openclaw/skills
-#npm i -g clawhub
+mkdir -p /root/openclaw/skills
+npm i -g clawhub
 
 # ============================================================
 # START GATEWAY
