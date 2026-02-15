@@ -307,18 +307,11 @@ EOFNODE
 # ============================================================
 echo "Ensure the base skills directory exists"
 mkdir -p /root/openclaw/skills
+npm i -g clawhub
 
-# 1. Install/Update Yahoo Forex Skill (Python-based)
-echo "Installing Forex Skills"
-if [ ! -d "/root/openclaw/skills/forex-skill" ]; then
-    git clone https://github.com/nazimboudeffa/openclaw-yahoo-finance-forex.git /root/openclaw/skills/forex-skill
-fi
-
-# 2. Install/Update General Finance News Skill
-echo "Installing Yahoo Finance Skills"
-if [ ! -d "/root/openclaw/skills/finance-news" ]; then
-    git clone https://github.com/kesslerio/finance-news-openclaw-skill /root/openclaw/skills/finance-news
-fi
+clawhub install stock-market-pro
+clawhub install finance-news
+clawhub install ddg-search
 
 # 3. Install/Update TradingView Screener
 echo "Installing TradingView Screener"
@@ -327,10 +320,10 @@ if [ ! -d "/root/openclaw/skills/finance-news" ]; then
 fi
 
 # 4. Install DuckDuckGo Search Skill
-echo "Installing DuckDuckGo Search"
-if [ ! -d "/root/openclaw/skills/ddg-search" ]; then
-    openclawhub install ddg-search
-fi
+#echo "Installing DuckDuckGo Search"
+#if [ ! -d "/root/openclaw/skills/ddg-search" ]; then
+#    openclawhub install ddg-search
+#fi
 
 # ============================================================
 # START GATEWAY
