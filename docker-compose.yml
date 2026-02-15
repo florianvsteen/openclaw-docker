@@ -21,6 +21,7 @@ services:
   # The Browser Service (Remote CDP Endpoint)
   browser:
     image: browserless/chrome:latest
+    container_name: openclaw-browser
     shm_size: '2gb'
     environment:
       - MAX_CONCURRENT_SESSIONS=10
