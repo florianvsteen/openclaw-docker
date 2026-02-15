@@ -10,10 +10,26 @@ RUN apt-get update && apt-get install -y \
     chromium \
     python3 \
     python3-pip \
+    build-essential \
+    procps \
+    file \
     && rm -rf /var/lib/apt/lists/*
 
-# We use --break-system-packages because Debian/Ubuntu now block global pip installs by default
-#RUN pip3 install --no-cache-dir yfinance>=0.2.40 --break-system-packages
+# --- HOMEBREW INSTALLATION ---
+# Brew requires a non-root user to install, but we can set it up for root 
+# by installing to /home/linuxbrew/.linuxbrew
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Add Brew to the PATH for all subsequent layers
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+# Set typical Brew env vars
+ENV HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
+ENV HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
+ENV HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
+
+# Optional: Disable Brew analytics to speed up builds
+ENV HOMEBREW_NO_ANALYTICS=1
+# --
 
 # Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
