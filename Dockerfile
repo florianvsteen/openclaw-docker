@@ -6,15 +6,13 @@ STOPSIGNAL SIGRTMIN+3
 # Install systemd first
 RUN apt-get update && apt-get install -y \
     gnupg \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Install Node 22 from NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get update \
     && apt-get install -y nodejs \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Install other packages
 RUN apt-get update && apt-get install -y \
@@ -27,8 +25,7 @@ RUN apt-get update && apt-get install -y \
     procps \
     file \
     psmisc \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean
 
 # Install global tools
 RUN npm install -g pnpm openclaw@latest clawhub
