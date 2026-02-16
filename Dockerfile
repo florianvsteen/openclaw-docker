@@ -18,7 +18,8 @@ RUN apt-get update && apt-get install -y \
 # --- HOMEBREW INSTALLATION ---
 # Brew requires a non-root user to install, but we can set it up for root 
 # by installing to /home/linuxbrew/.linuxbrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" \
+    && eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Add Brew to the PATH for all subsequent layers
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
