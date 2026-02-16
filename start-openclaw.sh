@@ -308,7 +308,14 @@ EOFNODE
 # ============================================================
 #echo "Ensure the base skills directory exists"
 mkdir -p /root/openclaw/skills
-clawhub install stock-analysis
+
+# Check if the folder exists in the working directory
+if [ ! -d "/root/openclaw/skills/stock-analysis" ]; then
+    echo "Stock-analysis not found. Installing..."
+    clawhub install stock-analysis
+else
+    echo "Stock-analysis folder already exists. Skipping install."
+fi
 
 # ============================================================
 # START GATEWAY
