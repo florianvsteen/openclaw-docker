@@ -1,14 +1,28 @@
-# Use Debian base so systemd works properly
-FROM node:22-bookworm
+FROM debian:bookworm
 
 ENV container docker
+STOPSIGNAL SIGRTMIN+3
 
-# Install systemd + required tools
+# Install systemd first
 RUN apt-get update && apt-get install -y \
     systemd \
     systemd-sysv \
     dbus \
     curl \
+    ca-certificates \
+    gnupg \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node 22 from NodeSource
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get update \
+    && apt-get install -y nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install other packages
+RUN apt-get update && apt-get install -y \
     git \
     rsync \
     chromium \
@@ -21,64 +35,10 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Remove unnecessary systemd services to slim down container
-RUN rm -f /lib/systemd/system/multi-user.target.wants/* \
-    && rm -f /etc/systemd/system/*.wants/* \
-    && rm -f /lib/systemd/system/local-fs.target.wants/* \
-    && rm -f /lib/systemd/system/sockets.target.wants/*udev* \
-    && rm -f /lib/systemd/system/sockets.target.wants/*initctl* \
-    && rm -f /lib/systemd/system/basic.target.wants/* \
-    && rm -f /lib/systemd/system/anaconda.target.wants/*
+# Install global tools
+RUN npm install -g pnpm openclaw@latest clawhub
 
-# Prepare Homebrew prefix
-RUN mkdir -p /home/linuxbrew/.linuxbrew \
- && chown -R node:node /home/linuxbrew
-
-USER node
-RUN NONINTERACTIVE=1 /bin/bash -lc \
-  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-
-USER root
-
-# Chromium environment
-ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-ENV CHROME_PATH=/usr/bin/chromium
-ENV CHROMIUM_FLAGS="--no-sandbox --disable-gpu --disable-dev-shm-usage"
-
-ARG EXTRA_APT_PACKAGES=""
-RUN if [ -n "$EXTRA_APT_PACKAGES" ]; then \
-      apt-get update && apt-get install -y $EXTRA_APT_PACKAGES && rm -rf /var/lib/apt/lists/*; \
-    fi
-
-# Install pnpm
-RUN npm install -g pnpm
-
-# Install openclaw + clawhub
-RUN npm install -g openclaw@latest \
-    && openclaw --version
-
-RUN npm install -g clawhub
-
-# Run custom setup
-COPY user-setup.sh /tmp/user-setup.sh
-RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
-
-# Directories
-RUN mkdir -p /root/.openclaw \
-    && mkdir -p /root/.openclaw-templates \
-    && mkdir -p /root/openclaw/skills
-
-COPY openclaw.json.template /root/.openclaw-templates/openclaw.json.template
-
-WORKDIR /root/openclaw
-
-# ---------------------------
-# Create systemd service
-# ---------------------------
-# Create systemd service file correctly
-
+# Create service file safely
 RUN printf '%s\n' \
 "[Unit]" \
 "Description=OpenClaw Service" \
@@ -88,23 +48,15 @@ RUN printf '%s\n' \
 "Type=simple" \
 "ExecStart=/usr/local/bin/start-openclaw.sh" \
 "Restart=always" \
-"User=root" \
-"Environment=PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium" \
-"Environment=CHROME_PATH=/usr/bin/chromium" \
-"Environment=CHROMIUM_FLAGS=--no-sandbox --disable-gpu --disable-dev-shm-usage" \
 "" \
 "[Install]" \
 "WantedBy=multi-user.target" \
 > /etc/systemd/system/openclaw.service
 
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
-RUN chmod +x /usr/local/bin/start-openclaw.sh
-
-# Enable service
-RUN systemctl enable openclaw.service
+RUN chmod +x /usr/local/bin/start-openclaw.sh \
+    && systemctl enable openclaw.service
 
 EXPOSE 18789
-
-STOPSIGNAL SIGRTMIN+3
 
 CMD ["/sbin/init"]
