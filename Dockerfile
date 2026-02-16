@@ -4,12 +4,12 @@ FROM jrei/systemd-ubuntu:24.04
 # Avoid prompts
 ENV DEBIAN_FRONTEND=noninteractive
 
-# 1. Install Node.js 22 + All Homebrew/Systemd Dependencies
+# 1. Install System Dependencies (Using 'chromium' instead of 'chromium-browser')
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     rsync \
-    chromium-browser \
+    chromium \
     python3 \
     python3-pip \
     build-essential \
@@ -20,21 +20,22 @@ RUN apt-get update && apt-get install -y \
     libpam-systemd \
     sudo \
     ca-certificates \
-    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs \
+    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install Homebrew (Manual method - more stable for Docker)
-RUN mkdir -p /home/linuxbrew/.linuxbrew/bin \
-    && chown -R ubuntu:ubuntu /home/linuxbrew \
-    && chmod -R 755 /home/linuxbrew
+# 2. Install Node.js 22
+RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
+
+# 3. Setup Homebrew (Manual workaround for Docker)
+RUN mkdir -p /home/linuxbrew/.linuxbrew \
+    && chown -R ubuntu:ubuntu /home/linuxbrew
 
 USER ubuntu
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Path setup for both root and ubuntu users
+# Path setup
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-
 # Back to root if you need apt / permissions later
 USER root
 
