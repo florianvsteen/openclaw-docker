@@ -13,6 +13,7 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     procps \
     file \
+    psmisc \
     && rm -rf /var/lib/apt/lists/*
 
 # Prepare Homebrew prefix with correct ownership (root)
