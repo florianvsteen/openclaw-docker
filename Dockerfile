@@ -15,21 +15,20 @@ RUN apt-get update && apt-get install -y \
     file \
     && rm -rf /var/lib/apt/lists/*
 
-# --- HOMEBREW INSTALLATION ---
-# Brew requires a non-root user to install, but we can set it up for root 
-# by installing to /home/linuxbrew/.linuxbrew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
+# Prepare Homebrew prefix with correct ownership (root)
+RUN mkdir -p /home/linuxbrew/.linuxbrew \
+ && chown -R node:node /home/linuxbrew
 
-# Add Brew to the PATH for all subsequent layers
+# Install Homebrew as non-root (node)
+USER node
+RUN NONINTERACTIVE=1 /bin/bash -lc \
+  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# Persist brew on PATH for later layers
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
-# Set typical Brew env vars
-ENV HOMEBREW_PREFIX="/home/linuxbrew/.linuxbrew"
-ENV HOMEBREW_CELLAR="/home/linuxbrew/.linuxbrew/Cellar"
-ENV HOMEBREW_REPOSITORY="/home/linuxbrew/.linuxbrew/Homebrew"
 
-# Optional: Disable Brew analytics to speed up builds
-ENV HOMEBREW_NO_ANALYTICS=1
-# --
+# Back to root if you need apt / permissions later
+USER root
 
 # Tell Puppeteer/Playwright to use the system Chromium instead of downloading their own
 ENV PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
