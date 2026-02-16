@@ -312,7 +312,7 @@ mkdir -p /root/openclaw/skills
 # Check if the folder exists in the working directory
 if [ ! -d "/root/openclaw/skills/market-environment-analysis" ]; then
     echo "market-environment-analysis not found. Installing..."
-    clawhub install market-environment-analysis
+    clawhub install market-environment-analysis --force
 else
     echo "market-environment-analysis folder already exists. Skipping install."
 fi
