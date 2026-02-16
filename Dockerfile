@@ -6,8 +6,7 @@ STOPSIGNAL SIGRTMIN+3
 # Install Node 22 from NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get update \
-    && apt-get install -y nodejs \
-    && apt-get clean
+    && apt-get install -y nodejs
 
 # Install other packages
 RUN apt-get update && apt-get install -y \
