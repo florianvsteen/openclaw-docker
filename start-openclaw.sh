@@ -379,7 +379,7 @@ else
 fi
 
 # 1. Enable linger for user persistence
-sudo loginctl enable-linger $(whoami)
+loginctl enable-linger $(whoami)
 
 # 2. Set XDG_RUNTIME_DIR (add to ~/.bashrc)
 export XDG_RUNTIME_DIR=/run/user/$(id -u)
