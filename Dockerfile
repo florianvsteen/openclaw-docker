@@ -1,19 +1,26 @@
-FROM node:22
+# Use a systemd-ready base image
+FROM jrei/systemd-ubuntu:24.04
 
-# Install basic tools + Chromium for browser automation
-# Chromium needs --no-sandbox when running as root in Docker;
-# openclaw handles this via its CHROMIUM_FLAGS / puppeteer config
+# Avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install Node.js 22 + Basic tools + Systemd support
 RUN apt-get update && apt-get install -y \
     curl \
     git \
     rsync \
-    chromium \
+    chromium-browser \
     python3 \
     python3-pip \
     build-essential \
     procps \
     file \
     psmisc \
+    dbus \
+    libpam-systemd \
+    systemd-container \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
 # Prepare Homebrew prefix with correct ownership (root)
