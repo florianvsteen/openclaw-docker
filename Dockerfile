@@ -1,4 +1,4 @@
-FROM node:22
+FROM csociety/systemd-node:22.04
 
 # Install basic tools + Chromium for browser automation
 # Chromium needs --no-sandbox when running as root in Docker;
