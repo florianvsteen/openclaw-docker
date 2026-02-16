@@ -378,21 +378,10 @@ else
     echo "WARNING: Chromium failed to start. Browser automation will not be available."
 fi
 
-# 1. Enable linger for user persistence
-loginctl enable-linger $(whoami)
-
-# 2. Set XDG_RUNTIME_DIR (add to ~/.bashrc)
-export XDG_RUNTIME_DIR=/run/user/$(id -u)
-
-# 3. Now openclaw gateway install works
-#openclaw gateway install --force
-
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-openclaw gateway install --force &
+openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
 GATEWAY_PID=$!
-#openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
-#GATEWAY_PID=$!
 
 # Forward signals to the gateway
 trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
