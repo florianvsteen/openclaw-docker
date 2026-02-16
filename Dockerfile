@@ -77,23 +77,25 @@ WORKDIR /root/openclaw
 # ---------------------------
 # Create systemd service
 # ---------------------------
-RUN bash -c 'cat > /etc/systemd/system/openclaw.service <<EOF
-[Unit]
-Description=OpenClaw Service
-After=network.target
+# Create systemd service file correctly
 
-[Service]
-Type=simple
-ExecStart=/usr/local/bin/start-openclaw.sh
-Restart=always
-User=root
-Environment=PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium
-Environment=CHROME_PATH=/usr/bin/chromium
-Environment=CHROMIUM_FLAGS=--no-sandbox --disable-gpu --disable-dev-shm-usage
-
-[Install]
-WantedBy=multi-user.target
-EOF'
+RUN printf '%s\n' \
+"[Unit]" \
+"Description=OpenClaw Service" \
+"After=network.target" \
+"" \
+"[Service]" \
+"Type=simple" \
+"ExecStart=/usr/local/bin/start-openclaw.sh" \
+"Restart=always" \
+"User=root" \
+"Environment=PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium" \
+"Environment=CHROME_PATH=/usr/bin/chromium" \
+"Environment=CHROMIUM_FLAGS=--no-sandbox --disable-gpu --disable-dev-shm-usage" \
+"" \
+"[Install]" \
+"WantedBy=multi-user.target" \
+> /etc/systemd/system/openclaw.service
 
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
 RUN chmod +x /usr/local/bin/start-openclaw.sh
