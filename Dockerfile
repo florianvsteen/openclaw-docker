@@ -23,16 +23,15 @@ RUN apt-get update && apt-get install -y \
     && apt-get install -y nodejs \
     && rm -rf /var/lib/apt/lists/*
 
-# Prepare Homebrew prefix with correct ownership (root)
 RUN mkdir -p /home/linuxbrew/.linuxbrew \
- && chown -R node:node /home/linuxbrew
+ && chown -R ubuntu:ubuntu /home/linuxbrew
 
-# Install Homebrew as non-root (node)
-USER node
+# Install Homebrew as the 'ubuntu' user
+USER ubuntu
 RUN NONINTERACTIVE=1 /bin/bash -lc \
-  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+ "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Persist brew on PATH for later layers
+# Path setup
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 
 # Back to root if you need apt / permissions later
