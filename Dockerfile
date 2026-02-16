@@ -3,11 +3,6 @@ FROM debian:bookworm
 ENV container docker
 STOPSIGNAL SIGRTMIN+3
 
-# Install systemd first
-RUN apt-get update && apt-get install -y \
-    gnupg \
-    && apt-get clean
-
 # Install Node 22 from NodeSource
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
     && apt-get update \
