@@ -5,11 +5,6 @@ STOPSIGNAL SIGRTMIN+3
 
 # Install systemd first
 RUN apt-get update && apt-get install -y \
-    systemd \
-    systemd-sysv \
-    dbus \
-    curl \
-    ca-certificates \
     gnupg \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
