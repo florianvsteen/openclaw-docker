@@ -1,33 +1,51 @@
-FROM ubuntu:22.04
+# Use Ubuntu 24.04 LTS as the base image
+FROM ubuntu:24.04
 
+# Avoid prompts from apt
 ENV DEBIAN_FRONTEND=noninteractive
-ENV container=docker
 
-# Install systemd + tools + Node
-RUN apt-get update
+# Define build argument for extra packages (Official compatibility)
+ARG OPENCLAW_DOCKER_APT_PACKAGES=""
 
-RUN apt-get install -y systemd
-RUN apt-get install -y systemd-sysv
-RUN apt-get install -y dbus
-RUN apt-get install -y curl
-RUN apt-get install -y git
-RUN apt-get install -y rsync
-RUN apt-get install -y chromium-browser
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
-RUN apt-get install -y build-essential
-RUN apt-get install -y procps
-RUN apt-get install -y file
-RUN apt-get install -y psmisc
-RUN apt-get install -y ca-certificates
-RUN apt-get install -y gnupg
-RUN apt-get install -y lsb-release
+# Install dependencies
+# - dumb-init: handles PID 1 signals correctly
+# - libvips-dev: for sharp (image processing) optimization
+# - ffmpeg: for media processing capabilities
+# - jq: useful for JSON manipulation in scripts
+# - cron: for scheduling periodic tasks
+# - gosu: for easy step-down from root
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    ca-certificates \
+    gnupg \
+    build-essential \
+    python3 \
+    python3-pip \
+    python3-venv \
+    iproute2 \
+    dumb-init \
+    libvips-dev \
+    ffmpeg \
+    jq \
+    cron \
+    gosu \
+    procps \
+    file \
+    zip \
+    unzip \
+    wget \
+    iputils-ping \
+    dnsutils \
+    net-tools \
+    $OPENCLAW_DOCKER_APT_PACKAGES \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN rm -rf /var/lib/apt/lists/*
-
-# Install Node 22 manually
+# Install Node.js 22
 RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs
+    && apt-get install -y nodejs \
+    && npm install -g pnpm \
+    && rm -rf /var/lib/apt/lists/*
 
 # Install pnpm + openclaw
 RUN npm install -g pnpm openclaw@latest clawhub
