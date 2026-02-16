@@ -1,10 +1,8 @@
-# Use the systemd-ready Ubuntu base
-FROM jrei/systemd-ubuntu:24.04
+FROM node:22
 
-# Avoid prompts
-ENV DEBIAN_FRONTEND=noninteractive
-
-# 1. Install System Dependencies (Using 'chromium' instead of 'chromium-browser')
+# Install basic tools + Chromium for browser automation
+# Chromium needs --no-sandbox when running as root in Docker;
+# openclaw handles this via its CHROMIUM_FLAGS / puppeteer config
 RUN apt-get update && apt-get install -y \
     curl \
     git \
@@ -16,26 +14,20 @@ RUN apt-get update && apt-get install -y \
     procps \
     file \
     psmisc \
-    dbus \
-    libpam-systemd \
-    sudo \
-    ca-certificates \
-    software-properties-common \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Install Node.js 22
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
-    && apt-get install -y nodejs
-
-# 3. Setup Homebrew (Manual workaround for Docker)
+# Prepare Homebrew prefix with correct ownership (root)
 RUN mkdir -p /home/linuxbrew/.linuxbrew \
-    && chown -R ubuntu:ubuntu /home/linuxbrew
+ && chown -R node:node /home/linuxbrew
 
-USER ubuntu
-RUN NONINTERACTIVE=1 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+# Install Homebrew as non-root (node)
+USER node
+RUN NONINTERACTIVE=1 /bin/bash -lc \
+  "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-# Path setup
+# Persist brew on PATH for later layers
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+
 # Back to root if you need apt / permissions later
 USER root
 
