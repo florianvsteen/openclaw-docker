@@ -22,7 +22,6 @@ RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
 
-USER node
 # Install Homebrew (required for first-party skills)
 # Create linuxbrew user+group and grant sudo access (required for Homebrew package installations)
 RUN groupadd -f linuxbrew && \
@@ -43,6 +42,7 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}
 ENV HOMEBREW_NO_AUTO_UPDATE=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 
+USER linuxbrew
 RUN brew install uv
 
 USER root
