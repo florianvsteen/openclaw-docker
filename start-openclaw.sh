@@ -383,10 +383,10 @@ GATEWAY_PID=$!
 
 # Forward signals to the gateway
 #trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
-trap "kill $GATEWAY_PID 2>/dev/null; wait" SIGTERM SIGINT
+#trap "kill $GATEWAY_PID 2>/dev/null; wait" SIGTERM SIGINT
 
 # Wait for the gateway to exit; if it does, clean up chromium too
-#wait $GATEWAY_PID
+wait $GATEWAY_PID
 #EXIT_CODE=$?
 #kill $CHROMIUM_PID 2>/dev/null
 exit $EXIT_CODE
