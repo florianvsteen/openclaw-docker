@@ -145,7 +145,7 @@ if (process.env.DISCORD_BOT_TOKEN) {
     // 'allowlist' (default) blocks everyone not in a specific list
     config.channels.discord.groupPolicy = 'open';
     config.channels.discord.dm = config.channels.discord.dm || {};
-    config.channels.discord.dm.policy = process.env.DISCORD_DM_POLICY || 'pairing';
+    config.channels.discord.dmPolicy = process.env.DISCORD_DM_POLICY || 'pairing';
 
     config.plugins = config.plugins || {};
     config.plugins.entries = config.plugins.entries || {};
