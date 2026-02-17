@@ -21,6 +21,8 @@ RUN apt-get update && apt-get install -y \
 RUN curl -fsSL https://bun.sh/install | bash
 ENV PATH="/root/.bun/bin:${PATH}"
 
+
+USER node
 # Install Homebrew (required for first-party skills)
 # Create linuxbrew user+group and grant sudo access (required for Homebrew package installations)
 RUN groupadd -f linuxbrew && \
@@ -40,6 +42,10 @@ RUN mkdir -p /home/linuxbrew/.linuxbrew/Homebrew && \
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
 ENV HOMEBREW_NO_AUTO_UPDATE=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
+
+RUN brew install uv
+
+USER root
 
 # Install pnpm globally
 RUN npm install -g pnpm
