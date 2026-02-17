@@ -1,28 +1,20 @@
-FROM ubuntu:22.04
-
-# Avoid prompts during package installation
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && apt-get install -y locales && rm -rf /var/lib/apt/lists/* \
-	&& localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
-ENV LANG en_US.utf8
-
+FROM node:22-bookworm
 
 # Install basic tools + Chromium for browser automation
 # Chromium needs --no-sandbox when running as root in Docker;
 # openclaw handles this via its CHROMIUM_FLAGS / puppeteer config
-#RUN apt-get update && apt-get install -y \
-#    curl \
-#    git \
-#    rsync \
-#    chromium \
-#    python3 \
-#    python3-pip \
-#    build-essential \
-#    procps \
-#    file \
-#    psmisc \
-#    && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    rsync \
+    chromium \
+    python3 \
+    python3-pip \
+    build-essential \
+    procps \
+    file \
+    psmisc \
+    && rm -rf /var/lib/apt/lists/*
 
 # Prepare Homebrew prefix with correct ownership (root)
 RUN mkdir -p /home/linuxbrew/.linuxbrew \
@@ -84,5 +76,7 @@ WORKDIR /root/openclaw
 
 # Expose the gateway port
 EXPOSE 18789
+
+USER node
 
 CMD ["/usr/local/bin/start-openclaw.sh"]
