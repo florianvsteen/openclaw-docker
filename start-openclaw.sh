@@ -307,11 +307,11 @@ EOFNODE
 mkdir -p /root/openclaw/skills
 
 # Check if the folder exists in the working directory
-if [ ! -d "/root/openclaw/skills/market-environment-analysis" ]; then
-    echo "market-environment-analysis not found. Installing..."
-    clawhub install market-environment-analysis --force
+if [ ! -d "/root/openclaw/skills/stock-analysis" ]; then
+    echo "stock-analysis not found. Installing..."
+    clawhub install stock-analysis --force
 else
-    echo "market-environment-analysis folder already exists. Skipping install."
+    echo "stock-analysis folder already exists. Skipping install."
 fi
 
 # ============================================================
