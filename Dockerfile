@@ -14,6 +14,7 @@ RUN apt-get update && apt-get install -y \
     chromium \
     python3 \
     python3-pip \
+    lsof \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Bun (required for build)
