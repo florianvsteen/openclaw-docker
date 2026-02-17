@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:22-bookworm
 
 # Install basic tools + Chromium for browser automation
 # Chromium needs --no-sandbox when running as root in Docker;
@@ -76,7 +76,5 @@ WORKDIR /root/openclaw
 
 # Expose the gateway port
 EXPOSE 18789
-
-USER node
 
 CMD ["/usr/local/bin/start-openclaw.sh"]
