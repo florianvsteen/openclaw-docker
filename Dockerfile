@@ -11,6 +11,9 @@ RUN apt-get update && apt-get install -y \
     file \
     sudo \
     jq \
+    chromium \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Bun (required for build)
