@@ -1,20 +1,23 @@
-FROM node:22
+FROM ubuntu:22.04
+
+# Avoid prompts during package installation
+ENV DEBIAN_FRONTEND=noninteractive
 
 # Install basic tools + Chromium for browser automation
 # Chromium needs --no-sandbox when running as root in Docker;
 # openclaw handles this via its CHROMIUM_FLAGS / puppeteer config
-RUN apt-get update && apt-get install -y \
-    curl \
-    git \
-    rsync \
-    chromium \
-    python3 \
-    python3-pip \
-    build-essential \
-    procps \
-    file \
-    psmisc \
-    && rm -rf /var/lib/apt/lists/*
+#RUN apt-get update && apt-get install -y \
+#    curl \
+#    git \
+#    rsync \
+#    chromium \
+#    python3 \
+#    python3-pip \
+#    build-essential \
+#    procps \
+#    file \
+#    psmisc \
+#    && rm -rf /var/lib/apt/lists/*
 
 # Prepare Homebrew prefix with correct ownership (root)
 RUN mkdir -p /home/linuxbrew/.linuxbrew \
