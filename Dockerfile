@@ -37,62 +37,39 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}
 ENV HOMEBREW_NO_AUTO_UPDATE=1
 ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 
-# Enable corepack for pnpm
-RUN corepack enable
+# Install pnpm globally
+RUN npm install -g pnpm
 
-WORKDIR /app
+# Install openclaw
+# Pin to specific version for reproducible builds
+RUN npm install -g openclaw@latest \
+    && openclaw --version
 
-# Clone and build OpenClaw - always fetch latest from main branch
-ARG OPENCLAW_VERSION=main
-RUN git clone --depth 1 --branch ${OPENCLAW_VERSION} https://github.com/openclaw/openclaw.git . && \
-    echo "Building OpenClaw from branch: ${OPENCLAW_VERSION}" && \
-    git rev-parse HEAD > /app/openclaw-commit.txt
+# Install clawhub
+RUN npm i -g clawhub
 
-# Install dependencies
-RUN pnpm install --frozen-lockfile
+# Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
+COPY user-setup.sh /tmp/user-setup.sh
+RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
 
-# Build
-RUN OPENCLAW_A2UI_SKIP_MISSING=1 pnpm build
-# Force pnpm for UI build (Bun may fail on ARM/Synology architectures)
-RUN npm_config_script_shell=bash pnpm ui:install
-RUN npm_config_script_shell=bash pnpm ui:build
+# Create directories
+# Templates are stored separately so we can detect first-run vs existing config
+RUN mkdir -p /root/.openclaw \
+    && mkdir -p /root/.openclaw-templates \
+    && mkdir -p /root/openclaw \
+    && mkdir -p /root/openclaw/skills
 
-# Clean up build artifacts to reduce image size
-RUN rm -rf .git node_modules/.cache
+# Copy startup script
+COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
+RUN chmod +x /usr/local/bin/start-openclaw.sh
 
-# Create app user (node already exists in base image)
-# Add node user to linuxbrew group for Homebrew access
-# Fix permissions for global npm installs
-RUN mkdir -p /home/node/.openclaw /home/node/.openclaw/workspace \
-    && chown -R node:node /home/node /app \
-    && chmod -R 755 /home/node/.openclaw \
-    && usermod -aG linuxbrew node \
-    && chmod -R g+w /home/linuxbrew/.linuxbrew \
-    && chown -R node:node /usr/local/lib/node_modules \
-    && chown -R node:node /usr/local/bin
+# Copy default configuration template
+COPY openclaw.json.template /root/.openclaw-templates/openclaw.json.template
 
-# Install Playwright system dependencies (as root before switching to node user)
-RUN npx -y playwright@latest install-deps chromium
+# Set working directory
+WORKDIR /root/openclaw
 
-# Copy SSL certificates to a location accessible by all users
-RUN mkdir -p /usr/local/share/ca-certificates && \
-    cp /etc/ssl/certs/ca-certificates.crt /usr/local/share/ca-certificates/ca-certificates.crt && \
-    chmod 755 /usr/local/share/ca-certificates && \
-    chmod 644 /usr/local/share/ca-certificates/ca-certificates.crt
+# Expose the gateway port
+EXPOSE 18789
 
-USER node
-
-# Install Playwright browsers for the node user
-# Use NODE_EXTRA_CA_CERTS to point to accessible certificate bundle
-RUN NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/ca-certificates.crt npx -y playwright@latest install chromium
-
-WORKDIR /home/node
-
-ENV NODE_ENV=production
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:/app/node_modules/.bin:${PATH}"
-ENV HOMEBREW_NO_AUTO_UPDATE=1
-ENV HOMEBREW_NO_INSTALL_CLEANUP=1
-
-# Default command
-ENTRYPOINT ["node", "/app/dist/index.js"]
-CMD ["--help"]
+CMD ["/usr/local/bin/start-openclaw.sh"]
