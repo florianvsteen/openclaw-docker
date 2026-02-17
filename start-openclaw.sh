@@ -309,6 +309,7 @@ mkdir -p /root/openclaw/skills
 # Check if the folder exists in the working directory
 if [ ! -d "/root/openclaw/skills/stock-analysis" ]; then
     echo "stock-analysis not found. Installing..."
+    brew install uv
     clawhub install stock-analysis --force
 else
     echo "stock-analysis folder already exists. Skipping install."
