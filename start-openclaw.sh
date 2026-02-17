@@ -380,7 +380,7 @@ fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-openclaw gateway --port 18789 --bind "$BIND_MODE --allow-unconfigured --token "$OPENCLAW_GATEWAY_TOKEN" --force"
+openclaw gateway --port 18789 --allow-unconfigured --token "$OPENCLAW_GATEWAY_TOKEN" --force"
 
 
 #openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
