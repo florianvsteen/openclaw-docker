@@ -13,6 +13,7 @@ services:
       - openclaw_data:/root/.openclaw      # Using named volume for config
       - openclaw_workspace:/root/openclaw  # Using named volume for workspace
     environment:
+      - OPENCLAW_GATEWAY_BIND="lan"
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
       - OLLAMA_BASE_URL=${OLLAMA_BASE_URL}
