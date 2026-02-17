@@ -353,25 +353,25 @@ echo ""
 # but if we start it ourselves on the expected CDP port, openclaw detects it.
 # Chromium runs as a background process; the shell stays as PID 1 so it can
 # reap child processes (exec would orphan chromium, causing it to be killed).
-echo "Starting Chromium (headless, CDP on port 18800)..."
-chromium \
-    --headless \
-    --no-sandbox \
-    --disable-gpu \
-    --disable-dev-shm-usage \
-    --remote-debugging-port=18800 \
-    --remote-debugging-address=127.0.0.1 \
-    --user-data-dir=/root/.openclaw/browser/openclaw/user-data \
-    about:blank 2>/dev/null &
-CHROMIUM_PID=$!
+#echo "Starting Chromium (headless, CDP on port 18800)..."
+#chromium \
+#    --headless \
+#    --no-sandbox \
+#    --disable-gpu \
+#    --disable-dev-shm-usage \
+#    --remote-debugging-port=18800 \
+#    --remote-debugging-address=127.0.0.1 \
+#    --user-data-dir=/root/.openclaw/browser/openclaw/user-data \
+#    about:blank 2>/dev/null &
+#CHROMIUM_PID=$!
 
 # Wait for CDP to be ready
-sleep 2
-if kill -0 $CHROMIUM_PID 2>/dev/null; then
-    echo "Chromium started (PID $CHROMIUM_PID)"
-else
-    echo "WARNING: Chromium failed to start. Browser automation will not be available."
-fi
+#sleep 2
+#if kill -0 $CHROMIUM_PID 2>/dev/null; then
+#    echo "Chromium started (PID $CHROMIUM_PID)"
+#else
+#    echo "WARNING: Chromium failed to start. Browser automation will not be available."
+#fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
@@ -382,10 +382,11 @@ openclaw gateway --port 18789 --verbose --allow-unconfigured --bind lan --token 
 GATEWAY_PID=$!
 
 # Forward signals to the gateway
-trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
+#trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
+trap "kill $GATEWAY_PID 2>/dev/null; wait" SIGTERM SIGINT
 
 # Wait for the gateway to exit; if it does, clean up chromium too
-wait $GATEWAY_PID
-EXIT_CODE=$?
-kill $CHROMIUM_PID 2>/dev/null
+#wait $GATEWAY_PID
+#EXIT_CODE=$?
+#kill $CHROMIUM_PID 2>/dev/null
 exit $EXIT_CODE
