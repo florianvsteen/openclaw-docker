@@ -95,7 +95,6 @@ if (config.models?.providers?.anthropic?.models) {
 // Gateway configuration
 config.gateway.port = 18789;
 config.gateway.mode = 'local';
-config.gateway.bind = 'lan';
 
 
 // Allow insecure auth by default for local convenience
@@ -331,8 +330,6 @@ find "$CONFIG_DIR" -name "*.lock" -delete 2>/dev/null || true
 find "$CONFIG_DIR" -name "SingletonLock" -delete 2>/dev/null || true
 find "$CONFIG_DIR" -name "SingletonSocket" -delete 2>/dev/null || true
 find "$CONFIG_DIR" -name "SingletonCookie" -delete 2>/dev/null || true
-
-BIND_MODE="lan"
 
 # Token logic:
 # - If OPENCLAW_GATEWAY_TOKEN is set, the user intends remote/LAN access.
