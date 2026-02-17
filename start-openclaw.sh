@@ -380,17 +380,16 @@ fi
 
 # Start gateway in the background (not exec) so this shell stays as PID 1
 # to manage chromium as a child process.
-openclaw gateway --port 18789 --allow-unconfigured --token "$OPENCLAW_GATEWAY_TOKEN" --force & 
-GATEWAY_PID=$!
+openclaw gateway --port 18789 --allow-unconfigured --token "$OPENCLAW_GATEWAY_TOKEN" --force
 
 
 #openclaw gateway --port 18789 --verbose --allow-unconfigured --bind "$BIND_MODE" --token "$OPENCLAW_GATEWAY_TOKEN" &
 #GATEWAY_PID=$!
 # Forward signals to the gateway
-trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
+#trap "kill $GATEWAY_PID $CHROMIUM_PID 2>/dev/null; wait" SIGTERM SIGINT
 
 # Wait for the gateway to exit; if it does, clean up chromium too
-wait $GATEWAY_PID
-EXIT_CODE=$?
-kill $CHROMIUM_PID 2>/dev/null
+#wait $GATEWAY_PID
+#EXIT_CODE=$?
+#kill $CHROMIUM_PID 2>/dev/null
 exit $EXIT_CODE
