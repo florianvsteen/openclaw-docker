@@ -59,6 +59,10 @@ RUN npm install -g openclaw@latest \
 # Install clawhub
 RUN npm i -g clawhub
 
+#install agent browser
+RUN npm install -g agent-browser
+RUN agent-browser install --with-deps
+
 # Run user-setup.sh hook for custom toolchains (Rust, Go, Python, etc.)
 COPY user-setup.sh /tmp/user-setup.sh
 RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
