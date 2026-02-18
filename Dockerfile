@@ -73,7 +73,7 @@ RUN chmod +x /tmp/user-setup.sh && /tmp/user-setup.sh
 RUN mkdir -p /root/.openclaw \
     && mkdir -p /root/.openclaw-templates \
     && mkdir -p /root/openclaw \
-    && mkdir -p /root/openclaw/skills
+    && mkdir -p /root/openclaw/skills \
     && mkdir -p /root/openclaw/screenshots
 
 # Copy startup script
