@@ -8,6 +8,7 @@ services:
     ports:
       #- "${OPENCLAW_BIND_HOST:-127.0.0.1}:18789:18789"
       - "18789:18789"
+      - "5000:5000"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
       - openclaw_workspace:/root/openclaw  # Using named volume for workspace
