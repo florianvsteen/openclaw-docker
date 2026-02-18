@@ -326,7 +326,7 @@ fi
 # Check if the folder exists in the working directory
 if [ ! -d "/root/openclaw/skills/agent-browser" ]; then
     echo "agent-browser not found. Installing..."
-    clawhub install agent-browser --force
+    clawhub install agent-browser-3 --force
 else
     echo "agent-browser folder already exists. Skipping install."
 fi
