@@ -74,6 +74,7 @@ RUN mkdir -p /root/.openclaw \
     && mkdir -p /root/.openclaw-templates \
     && mkdir -p /root/openclaw \
     && mkdir -p /root/openclaw/skills
+    && mkdir -p /root/openclaw/screenshots
 
 # Copy startup script
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
