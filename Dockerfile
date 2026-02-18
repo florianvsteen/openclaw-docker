@@ -44,6 +44,7 @@ ENV HOMEBREW_NO_INSTALL_CLEANUP=1
 
 #Install brew packages as user linuxbrew
 USER linuxbrew
+RUN brew update
 RUN brew install uv
 
 USER root
