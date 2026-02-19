@@ -77,8 +77,9 @@ RUN mkdir -p /root/.openclaw \
     && mkdir -p /root/openclaw/screenshots
 
 #TradingView skill
-RUN git clone https://github.com/florianvsteen/lightweightchart-agent.git /root/openclaw/skills/lightweightchart-agent/
+RUN git clone -b modular https://github.com/florianvsteen/lightweightchart-agent.git
 RUN pip3 install -r /root/openclaw/skills/lightweightchart-agent/requirements.txt --break-system-packages
+RUN npm i -g pm2
 
 # Copy startup script
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
