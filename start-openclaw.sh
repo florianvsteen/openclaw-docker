@@ -366,6 +366,7 @@ echo "  Starting lightweight charts"
 echo "============================================================"
 echo ""
 
+chmod +x /root/openclaw/skills/lightweightchart-agent/install.sh
 ./root/openclaw/skills/lightweightchart-agent/install.sh
 
 # Pre-launch Chromium with CDP so the browser control server finds it running.
