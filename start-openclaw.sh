@@ -322,6 +322,7 @@ if [ ! -d "/root/openclaw/skills/lightweightchart-agent" ]; then
     pip3 install -r /root/openclaw/skills/lightweightchart-agent/requirements.txt --break-system-packages
 else
     git -C /root/openclaw/skills/lightweightchart-agent fetch --all && git -C /root/openclaw/skills/lightweightchart-agent reset --hard origin/main
+    pip3 install -r /root/openclaw/skills/lightweightchart-agent/requirements.txt --break-system-packages
 fi
 
 # Check if the folder exists in the working directory
