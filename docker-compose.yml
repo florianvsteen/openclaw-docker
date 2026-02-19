@@ -6,8 +6,9 @@ services:
       args:
         EXTRA_APT_PACKAGES: ""  # Add apt packages here, e.g. "python3 python3-pip"
     ports:
-      #- "${OPENCLAW_BIND_HOST:-127.0.0.1}:18789:18789"
+      #Openclaw UI
       - "18789:18789"
+      #Ports for ligtweight charts
       - "5000:5000"
       - "5001:5001"
       - "5002:5002"
