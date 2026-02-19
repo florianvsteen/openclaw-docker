@@ -22,7 +22,6 @@ services:
       - OLLAMA_MODEL=${OLLAMA_MODEL}
       - OLLAMA_API_KEY=ollama-local
       - BRAVE_API_KEY=${BRAVE_API_KEY}
-      - TRADINGVIEW_COOKIE=${TRADINGVIEW_COOKIE}
       - UI_LANG=en-US
     restart: unless-stopped
 
