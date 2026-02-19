@@ -316,6 +316,15 @@ else
 fi
 
 # Check if the folder exists in the working directory
+if [ ! -d "/root/openclaw/skills/lightweightchart-agent" ]; then
+    echo "lightweightchart-agent not found. Installing..."
+    git clone https://github.com/florianvsteen/lightweightchart-agent.git /root/openclaw/skills/lightweightchart-agent/
+    pip3 install -r /root/openclaw/skills/lightweightchart-agent/requirements.txt --break-system-packages
+else
+    git pull ./skills/lightweightchart-agent/
+fi
+
+# Check if the folder exists in the working directory
 if [ ! -d "/root/openclaw/skills/agent-browser" ]; then
     echo "agent-browser not found. Installing..."
     clawhub install agent-browser --force
