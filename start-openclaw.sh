@@ -316,14 +316,6 @@ else
 fi
 
 # Check if the folder exists in the working directory
-if [ ! -d "/root/openclaw/skills/technical-analyst" ]; then
-    echo "technical-analyst not found. Installing..."
-    clawhub install technical-analyst --force
-else
-    echo "technical-analyst folder already exists. Skipping install."
-fi
-
-# Check if the folder exists in the working directory
 if [ ! -d "/root/openclaw/skills/agent-browser" ]; then
     echo "agent-browser not found. Installing..."
     clawhub install agent-browser --force
