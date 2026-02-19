@@ -321,7 +321,7 @@ if [ ! -d "/root/openclaw/skills/lightweightchart-agent" ]; then
     git clone https://github.com/florianvsteen/lightweightchart-agent.git /root/openclaw/skills/lightweightchart-agent/
     pip3 install -r /root/openclaw/skills/lightweightchart-agent/requirements.txt --break-system-packages
 else
-    git pull ./skills/lightweightchart-agent/
+    git -C /root/openclaw/skills/lightweightchart-agent pull
 fi
 
 # Check if the folder exists in the working directory
