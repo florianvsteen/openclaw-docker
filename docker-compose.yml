@@ -11,6 +11,7 @@ services:
       - "5000:5000"
       - "5001:5001"
       - "5002:5002"
+      - "5003:5003"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
       - openclaw_workspace:/root/openclaw  # Using named volume for workspace
