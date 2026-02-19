@@ -367,7 +367,7 @@ echo "============================================================"
 echo ""
 
 chmod +x /root/openclaw/skills/lightweightchart-agent/install.sh
-./skills/lightweightchart-agent/install.sh
+./skills/lightweightchart-agent/install.sh 2>/dev/null
 
 # Pre-launch Chromium with CDP so the browser control server finds it running.
 # openclaw's built-in /start endpoint fails to launch chromium in Docker,
