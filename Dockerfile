@@ -2,6 +2,7 @@ FROM node:22-bookworm
 
 # Install system dependencies (including Homebrew prerequisites)
 RUN apt-get update && apt-get install -y \
+    tzdata \
     git \
     curl \
     ca-certificates \
@@ -16,6 +17,11 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     lsof \
     && rm -rf /var/lib/apt/lists/*
+
+ENV TZ=Europe/Brussels
+
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+    echo $TZ > /etc/timezone
 
 # Install Bun (required for build)
 RUN curl -fsSL https://bun.sh/install | bash
