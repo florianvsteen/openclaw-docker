@@ -8,7 +8,7 @@ services:
     ports:
       #Openclaw UI
       - "18789:18789"
-      #Ports Charts Mission Control
+      #Charts Mission Control
       - "6767:6767"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
