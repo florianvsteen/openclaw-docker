@@ -27,6 +27,7 @@ services:
       - OLLAMA_API_KEY=ollama-local
       - BRAVE_API_KEY=${BRAVE_API_KEY}
       - UI_LANG=en-US
+      - TZ=Europe/Brussels
     restart: unless-stopped
 
   # The Browser Service (Remote CDP Endpoint)
