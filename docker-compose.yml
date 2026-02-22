@@ -25,6 +25,8 @@ services:
       - BRAVE_API_KEY=${BRAVE_API_KEY}
       - UI_LANG=en-US
       - TZ=Europe/Brussels
+      - MT5_API_URL=${MT5_API_URL}
+      - DATA_PROVIDER=${DATA_PROVIDER}
     restart: unless-stopped
 
   # The Browser Service (Remote CDP Endpoint)
