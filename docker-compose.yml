@@ -56,7 +56,6 @@ services:
 networks:
   openclaw_shared:
     external: true
-    name: openclaw_network     
 volumes:
   openclaw_data:
   openclaw_workspace:
