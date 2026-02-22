@@ -31,6 +31,8 @@ services:
       - MT5_API_PASSWORD=${MT5_API_PASSWORD}
       - MT5_API_SERVER=${MT5_API_SERVER}
     restart: unless-stopped
+    networks:
+      - openclaw_shared
 
   # The Browser Service (Remote CDP Endpoint)
   browser:
@@ -48,7 +50,13 @@ services:
     restart: unless-stopped
     ports:
       - "3000:3000"
+    networks:
+      - openclaw_shared
       
+networks:
+  openclaw_shared:
+    external: true
+    name: openclaw_network     
 volumes:
   openclaw_data:
   openclaw_workspace:
