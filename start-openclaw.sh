@@ -101,6 +101,7 @@ config.gateway.mode = 'local';
 // Users who expose the port externally can set this to false in their config
 config.gateway.controlUi = config.gateway.controlUi || {};
 config.gateway.controlUi.allowInsecureAuth = true;
+config.gateway.controlUi.dangerouslyAllowHostHeaderOriginFallback = true;
 
 // Browser configuration (Chromium in Docker)
 config.browser = config.browser || {};
