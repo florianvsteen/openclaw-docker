@@ -9,14 +9,12 @@ services:
       #Openclaw UI
       - "18789:18789"
       #Charts Mission Control
-      - "5000:5000"
       - "6767:6767"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
       - openclaw_workspace:/root/openclaw  # Using named volume for workspace
     environment:
       - OPENCLAW_GATEWAY_TOKEN=${OPENCLAW_GATEWAY_TOKEN}
-      - DATABENTO_API_KEY=${DATABENTO_API_KEY}
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
       - OPENCLAW_SKIP_SERVICE_CHECK=true
       - DISCORD_BOT_TOKEN=${DISCORD_BOT_TOKEN}
