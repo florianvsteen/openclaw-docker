@@ -9,6 +9,7 @@ services:
       #Openclaw UI
       - "18789:18789"
       #Charts Mission Control
+      - "5000:5000"
       - "6767:6767"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
