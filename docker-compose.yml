@@ -26,9 +26,7 @@ services:
       - TZ=Europe/Brussels
       - MT5_API_URL=${MT5_API_URL}
       - DATA_PROVIDER=${DATA_PROVIDER}
-      - MT5_API_USER=${MT5_API_USER}
-      - MT5_API_PASSWORD=${MT5_API_PASSWORD}
-      - MT5_API_SERVER=${MT5_API_SERVER}
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
     restart: unless-stopped
     networks:
       - openclaw_shared
