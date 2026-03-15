@@ -8,8 +8,6 @@ services:
     ports:
       #Openclaw UI
       - "18789:18789"
-      #Charts Mission Control
-      - "6767:6767"
     volumes:
       - openclaw_data:/root/.openclaw      # Using named volume for config
       - openclaw_workspace:/root/openclaw  # Using named volume for workspace
@@ -24,10 +22,6 @@ services:
       - BRAVE_API_KEY=${BRAVE_API_KEY}
       - UI_LANG=en-US
       - TZ=Europe/Brussels
-      - MT5_API_URL=${MT5_API_URL}
-      - DATA_PROVIDER=${DATA_PROVIDER}
-      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
-      - GEMINI_API_KEY=${GEMINI_API_KEY}
     restart: unless-stopped
     networks:
       - openclaw_shared
