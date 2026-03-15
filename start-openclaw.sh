@@ -369,17 +369,6 @@ echo "  http://localhost:18789/?token=${OPENCLAW_GATEWAY_TOKEN}"
 echo "============================================================"
 echo ""
 
-
-
-echo ""
-echo "============================================================"
-echo "  Starting lightweight charts"
-echo "============================================================"
-echo ""
-
-chmod +x /root/openclaw/skills/lightweightchart-agent/install.sh
-./skills/lightweightchart-agent/install.sh
-
 # Pre-launch Chromium with CDP so the browser control server finds it running.
 # openclaw's built-in /start endpoint fails to launch chromium in Docker,
 # but if we start it ourselves on the expected CDP port, openclaw detects it.
