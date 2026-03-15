@@ -27,6 +27,7 @@ services:
       - MT5_API_URL=${MT5_API_URL}
       - DATA_PROVIDER=${DATA_PROVIDER}
       - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
     restart: unless-stopped
     networks:
       - openclaw_shared
